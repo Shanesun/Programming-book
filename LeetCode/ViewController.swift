@@ -280,31 +280,85 @@ class ViewController: UIViewController {
     }
     
     // 对角线遍历
+    /*
+     typeH 0表示横向，1表示竖向。 根据方向来寻找规律。
+     */
     func findDiagonalOrder(_ matrix: [[Int]]) -> [Int] {
         var array = [Int]()
         
         var rIndex = 0
         var cIndex = 0
         
-        var type = 0
+        var typeH = 0
 
         while rIndex < matrix.count && cIndex < matrix.last!.count {
             array.append(matrix[rIndex][cIndex])
             
-            if cIndex-1 < 0 {
-                if type == 0 {
-                    cIndex = cIndex + 1
-                    type = 1
-                } else if type == 1{
-                    rIndex = rIndex + 1
-                }
-            } else if rIndex+1 < matrix.count {
-                if (type == 1) {
-                    cIndex = cIndex - 1
-                    rIndex = rIndex + 1
-                } else {
+            if rIndex >= matrix.count-1 && cIndex >= matrix.last!.count-1 {
+                break
+            }
+            
+            if rIndex == 0 {
+                if typeH == 0 {
+                    if cIndex == matrix[rIndex].count-1 {
+                        rIndex = rIndex + 1
+                    } else {
+                        cIndex = cIndex + 1
+                    }
                     
+                    typeH = 1
+                } else if (typeH == 1){
+                     if rIndex == matrix.count-1 {
+                        cIndex = cIndex + 1
+                     } else {
+                        rIndex = rIndex + 1
+                        cIndex = cIndex - 1
+                    }
                 }
+                
+                continue
+            } else if (typeH == 1 && cIndex != 0) {
+                if rIndex == matrix.count-1 {
+                    cIndex = cIndex + 1
+                    typeH = 0
+                } else {
+                    rIndex = rIndex + 1
+                    cIndex = cIndex - 1
+                }
+                
+                continue
+            }
+            
+            if cIndex == 0 {
+                if typeH == 1 {
+                    if rIndex == matrix.count-1 {
+                        cIndex = cIndex + 1
+                    } else {
+                        rIndex = rIndex + 1
+                    }
+                    typeH = 0
+                } else if (typeH == 0) {
+                    if cIndex == matrix[rIndex].count - 1 {
+                        rIndex = rIndex + 1
+                        typeH = 1
+                    } else {
+                        rIndex = rIndex - 1
+                        cIndex = cIndex + 1
+                    }
+                }
+                
+                continue
+            } else if (typeH == 0 && rIndex != 0) {
+                if cIndex == matrix[rIndex].count - 1 {
+                    rIndex = rIndex + 1
+                    typeH = 1
+                } else {
+                    rIndex = rIndex - 1
+                    cIndex = cIndex + 1
+                }
+               
+                
+                continue
             }
             
             
@@ -312,13 +366,21 @@ class ViewController: UIViewController {
         
         return array
     }
+    func testfindDiagonalOrder() {
+        let tmp4 = self.findDiagonalOrder([[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]])
+        let tmp0 = self.findDiagonalOrder([[2,5],[8,4],[0,-1]])
+       let tmp1 = self.findDiagonalOrder([[1,2,3],[4,5,6],[7,8,9]])
+
+        let tmp2 = self.findDiagonalOrder([[1,2,3]])
+        let tmp3 = self.findDiagonalOrder([[]])
+    }
     
     
     //////////////////////////////////////////////////////
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       self.testPlusOne()
+       self.testfindDiagonalOrder()
     }
 }
 
