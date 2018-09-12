@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    // 1
+    //MARK: 字符串模板
     func wordPattern(_ pattern: String, _ str: String) -> Bool {
         let strArray = str.split(separator: " ")
         let characters = Array(pattern)
@@ -44,19 +44,15 @@ class ViewController: UIViewController {
             return false
         }
     }
-    
     func textWordPattern() {
-        wordPattern("abba", "dog cat cat dog")
-        wordPattern("abba", "dog cat cat fish")
-        wordPattern("aaaa", "dog cat cat dog")
-        wordPattern("abba", "dog dog dog dog")
-        wordPattern("aba", "dog dog dog dog")
+       _ = wordPattern("abba", "dog cat cat dog")
+       _ = wordPattern("abba", "dog cat cat fish")
+       _ = wordPattern("aaaa", "dog cat cat dog")
+       _ = wordPattern("abba", "dog dog dog dog")
+       _ = wordPattern("aba", "dog dog dog dog")
     }
     
-
-    
-    
-    // 2
+    //MARK: 两数求和
     func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
         for (index, value) in nums.enumerated() {
             let wantInt = target - value
@@ -71,12 +67,12 @@ class ViewController: UIViewController {
         return [Int]()
     }
     func textTwoSum() {
-        twoSum([2, 7, 11, 15], 15)
+       _ = twoSum([2, 7, 11, 15], 15)
     }
   
     
     
-    // 2
+    //MARK: 两数相加
     public class ListNode {
         public var val: Int
         public var next: ListNode?
@@ -154,10 +150,10 @@ class ViewController: UIViewController {
         node1.next = ListNode.init(1)
         
         let node2 = ListNode.init(6)
-        addTwoNumbers(node1, node2)
+        _ = addTwoNumbers(node1, node2)
     }
     
-    // 寻找数组的中心索引
+    //MARK: 寻找数组的中心索引
     func pivotIndex(_ nums: [Int]) -> Int {
         if nums.count == 0 {
             return -1
@@ -205,7 +201,7 @@ class ViewController: UIViewController {
             return maxIndex
         }
         
-        for (index, value) in mutablNums.enumerated() {
+        for (_, value) in mutablNums.enumerated() {
             if value > secondValue {
                 secondValue = value
             }
@@ -236,7 +232,7 @@ class ViewController: UIViewController {
         }
     }
     
-    //  加一
+    //MARK: 加一
     func plusOne(_ digits: [Int]) -> [Int] {
         var mutableDigits = digits
         var jinwei = 1
@@ -245,7 +241,7 @@ class ViewController: UIViewController {
             return digits
         }
         
-        for (index, value) in mutableDigits.enumerated() {
+        for (index, _) in mutableDigits.enumerated() {
             if (jinwei > 0) {
                 let plusValue = mutableDigits[mutableDigits.count-index-1] + jinwei
                 jinwei = 0
@@ -279,7 +275,7 @@ class ViewController: UIViewController {
         }
     }
     
-    // 对角线遍历
+    //MARK: 对角线遍历
     /*
      typeH 0表示横向，1表示竖向。 根据方向来寻找规律。
      */
@@ -370,11 +366,11 @@ class ViewController: UIViewController {
     }
     
     
-    //MARK:viewDidLoad
+    //MARK:- TEST
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       self.testfindDiagonalOrder()
+        self.testfindDiagonalOrder()
     }
 }
 
