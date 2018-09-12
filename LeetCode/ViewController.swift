@@ -356,27 +356,21 @@ class ViewController: UIViewController {
                     rIndex = rIndex - 1
                     cIndex = cIndex + 1
                 }
-               
-                
                 continue
             }
-            
-            
         }
         
         return array
     }
     func testfindDiagonalOrder() {
-        let tmp4 = self.findDiagonalOrder([[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]])
-        let tmp0 = self.findDiagonalOrder([[2,5],[8,4],[0,-1]])
-       let tmp1 = self.findDiagonalOrder([[1,2,3],[4,5,6],[7,8,9]])
-
-        let tmp2 = self.findDiagonalOrder([[1,2,3]])
-        let tmp3 = self.findDiagonalOrder([[]])
+        _ = self.findDiagonalOrder([[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]])
+        _ = self.findDiagonalOrder([[2,5],[8,4],[0,-1]])
+        _ = self.findDiagonalOrder([[1,2,3],[4,5,6],[7,8,9]])
+        _ = self.findDiagonalOrder([[]])
     }
     
     
-    //////////////////////////////////////////////////////
+    //MARK:viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
