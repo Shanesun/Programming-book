@@ -365,12 +365,98 @@ class ViewController: UIViewController {
         _ = self.findDiagonalOrder([[]])
     }
     
+    //MARK:54. 螺旋矩阵
+    func spiralOrder(_ matrix: [[Int]]) -> [Int] {
+        var resultArray = [Int]()
+        
+        if matrix.count == 0 {
+            return resultArray
+        }
+        
+        var rIndex = 0
+        var cIndex = 0
+        var rIndexMax = matrix.count-1
+        var cIndexMax = matrix[rIndex].count-1
+        
+        if rIndexMax-rIndex < 1 {
+            for c in cIndex...cIndexMax {
+                resultArray.append(matrix[rIndex][c])
+            }
+            
+            return resultArray
+        } else if cIndexMax-cIndex < 1 {
+            for r in rIndex...rIndexMax {
+                resultArray.append(matrix[r][cIndexMax])
+            }
+            
+            return resultArray
+        }
+        
+        while true  {
+            for c in cIndex...cIndexMax {
+                resultArray.append(matrix[rIndex][c])
+            }
+            
+            for r in rIndex+1..<rIndexMax {
+                resultArray.append(matrix[r][cIndexMax])
+            }
+            
+            for c in cIndex...cIndexMax {
+                resultArray.append(matrix[rIndexMax][matrix[rIndexMax].count-1-c])
+            }
+            
+            for r in rIndex+1..<rIndexMax {
+                resultArray.append(matrix[matrix.count-1 - r][cIndex])
+            }
+            
+          
+            cIndexMax = cIndexMax - 1
+            cIndex = cIndex + 1
+            
+            rIndexMax = rIndexMax - 1
+            rIndex = rIndex + 1
+            
+            if (cIndexMax<cIndex || rIndexMax<rIndex) {
+                return resultArray;
+            }
+        
+            if rIndexMax-rIndex < 1 {
+                for c in cIndex...cIndexMax {
+                    resultArray.append(matrix[rIndex][c])
+                }
+                
+                return resultArray
+            } else if cIndexMax-cIndex < 1 {
+                for r in rIndex...rIndexMax {
+                    resultArray.append(matrix[r][cIndexMax])
+                }
+                
+                return resultArray
+            }
+        }
+        
+        
+        return resultArray
+    }
+    func testspiralOrder() {
+        //[[2,3,4],[5,6,7],[8,9,10],[11,12,13]]
+        let tmp5 = self.spiralOrder([[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]])
+        let tmp4 = self.spiralOrder([[1,2],[3,4]])
+        let tmp3 = self.spiralOrder([[3,2]])
+        let tmp2 = self.spiralOrder([[3],[2]])
+        let tmp1 = self.spiralOrder([
+            [ 1, 2, 3 ],
+            [ 4, 5, 6 ],
+            [ 7, 8, 9 ]
+            ])
+        
+    }
     
     //MARK:- TEST
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.testfindDiagonalOrder()
+        self.testspiralOrder()
     }
 }
 
