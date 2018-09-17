@@ -440,15 +440,147 @@ class ViewController: UIViewController {
     }
     func testspiralOrder() {
         //[[2,3,4],[5,6,7],[8,9,10],[11,12,13]]
-        let tmp5 = self.spiralOrder([[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]])
-        let tmp4 = self.spiralOrder([[1,2],[3,4]])
-        let tmp3 = self.spiralOrder([[3,2]])
-        let tmp2 = self.spiralOrder([[3],[2]])
-        let tmp1 = self.spiralOrder([
+        _ = self.spiralOrder([[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]])
+        _ = self.spiralOrder([[1,2],[3,4]])
+        _ = self.spiralOrder([[3,2]])
+        _ = self.spiralOrder([[3],[2]])
+        _ = self.spiralOrder([
             [ 1, 2, 3 ],
             [ 4, 5, 6 ],
             [ 7, 8, 9 ]
             ])
+    }
+    
+    //MARK: 118. 杨辉三角
+    func generate(_ numRows: Int) -> [[Int]] {
+        var array = [[Int]]()
+        if numRows == 0 {
+            return array
+        }
+        
+        for index in 0..<numRows {
+            var arrayOfRow = [Int]()
+            if index == 0 {
+                arrayOfRow.append(1)
+                array.append(arrayOfRow)
+                continue
+            }
+            for row in 0...index {
+                if row == 0 || row == index {
+                    arrayOfRow.append(1)
+                } else {
+                    let value = array.last![row-1] + array.last![row]
+                    arrayOfRow.append(value)
+                }
+            }
+            
+            array.append(arrayOfRow)
+        }
+        
+        return array
+    }
+    func testgenerate() {
+        _ = self.generate(5)
+        _ = self.generate(0)
+        _ = self.generate(1)
+    }
+    
+    //MARK:67. 二进制求和
+    func addBinary(_ a: String, _ b: String) -> String {
+        var result = String()
+        if a.count == 0 {
+            return b
+        } else if b.count == 0{
+            return a
+        }
+        
+        var jinwei = 0
+        
+        var aArray = Array(b)
+        var bArray = Array(a)
+        if Array(a).count >= Array(b).count {
+            aArray = Array(a)
+            bArray = Array(b)
+        }
+        
+        for (index, value) in aArray.enumerated().reversed() {
+            if aArray.count-1-index < bArray.count {
+                let bIndex = bArray.count-1 - (aArray.count-1-index)
+                var plusValue = Int(String(value))! + Int(String(bArray[bIndex]))! + jinwei
+                if plusValue >= 2 {
+                    jinwei = 1
+                    plusValue = plusValue%2
+                    result.insert(Character(String(plusValue)), at: result.startIndex)
+                } else {
+                    jinwei = 0
+                    result.insert(Character(String(plusValue)), at: result.startIndex)
+                }
+            } else {
+                if jinwei == 1 {
+                    let value = Int(String(value))! + jinwei
+                    
+                    if value >= 2 {
+                        jinwei = 1
+                        result.insert("0", at: result.startIndex)
+                    } else {
+                        jinwei = 0
+                        result.insert(Character(String(value)), at: result.startIndex)
+                    }
+                } else {
+                    let value = Int(String(value))!
+                    result.insert(Character(String(value)), at: result.startIndex)
+                }
+            }
+        }
+        
+        if jinwei == 1 {
+            result.insert("1", at: result.startIndex)
+            jinwei = 0
+        }
+        
+        return result
+    }
+    func testaddBinary() {
+        _ = self.addBinary("1111", "")
+    }
+    
+    //MARK: 28. 实现strStr()
+    func strStr(_ haystack: String, _ needle: String) -> Int {
+        if needle.count == 0 {
+            return 0
+        }
+        
+        if haystack.count == 0 {
+            return -1
+        }
+        
+        let array = Array(haystack)
+        let needArray = Array(needle)
+        
+        for (index, _) in array.enumerated() {
+            for (needleIndex, needleValue) in needArray.enumerated() {
+                if index + needleIndex > array.count-1 {
+                    return -1
+                }
+                
+                if array[index + needleIndex] == needleValue {
+                    if needleIndex == needArray.count - 1 {
+                        return index
+                    }
+                } else {
+                    break
+                }
+            }
+        }
+        
+        return -1
+    }
+    func teststrStr() {
+        _ = self.strStr("", "a")
+       _ = self.strStr("hello", "ll")
+        _ = self.strStr("aaaaa", "bba")
+        _ = self.strStr("a", "bba")
+        _ = self.strStr("a", "")
         
     }
     
@@ -456,7 +588,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.testspiralOrder()
+        self.teststrStr()
     }
 }
 
