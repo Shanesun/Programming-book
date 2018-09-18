@@ -632,11 +632,54 @@ class ViewController: UIViewController {
         
     }
     
+    //MARK:344. 反转字符串
+    func reverseString(_ s: String) -> String {
+        if s.count == 0 {
+            return s
+        }
+        
+        var sArray = Array(s)
+        var startIndex = 0
+        var endIndex = sArray.count - 1
+        
+        while startIndex < endIndex {
+            let tmpStartValue = sArray[startIndex]
+            sArray[startIndex] = sArray[endIndex]
+            sArray[endIndex] = tmpStartValue;
+            
+            startIndex += 1
+            endIndex -= 1
+        }
+        
+        return String(sArray)
+    }
+    func testreverseString() {
+        _ = reverseString("")
+        _ = reverseString("A man, a plan, a canal: Panama")
+    }
+    
+    //MARK: 561. 数组拆分 I
+    // 快排排序，数学公式: 0~n-1,偶数相加
+//    func arrayPairSum(_ nums: [Int]) -> Int {
+//        func quickSort(_ array: [Int], start: Int, end: Int, pivotIndex: Int) {
+//            let value = array[pivotIndex]
+//
+//            while start <= end {
+//                let tmpStartValue = array[start]
+//            }
+//        }
+//
+//    }
+//    func testarrayPairSum() {
+//
+//    }
+    
+    
     //MARK:- TEST
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       _ = self.testlongestCommonPrefix()
+       self.testreverseString()
     }
 }
 
