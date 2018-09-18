@@ -584,11 +584,59 @@ class ViewController: UIViewController {
         
     }
     
+    //MARK:14. 最长公共前缀
+    func longestCommonPrefix(_ strs: [String]) -> String {
+        if strs.count == 0 {
+            return ""
+        }
+        guard var commonPrefix = strs.first else {
+            return ""
+        }
+        
+        for (index, value) in strs.enumerated() {
+            if index == 0 { continue }
+            if value == "" { return "" }
+            if commonPrefix == value { continue }
+            
+//            let tmpPrefix = value.commonPrefix(with: commonPrefix!) // leetCode 编译器无法正确返回commonPrefix 方法
+            let commonPrefixArray = Array(commonPrefix)
+            let valueArray = Array(value)
+            
+            var tmpPrefix = ""
+            for (prefixIndex, char) in commonPrefixArray.enumerated() {
+                if prefixIndex < value.count {
+                    if char == valueArray[prefixIndex] {
+                        tmpPrefix.append(char)
+                    } else {
+                        break
+                    }
+                }
+            }
+            
+            if tmpPrefix.count > 0 {
+                commonPrefix = tmpPrefix
+            } else {
+                return ""
+            }
+        }
+        
+        return commonPrefix
+    }
+    func testlongestCommonPrefix() {
+         _ = self.longestCommonPrefix(["abca","abc"])
+        _ = self.longestCommonPrefix(["flower","flow","flight"])
+        _ = self.longestCommonPrefix(["dog","racecar","car"])
+        _ = self.longestCommonPrefix(["dog","racecar",""])
+        _ = self.longestCommonPrefix([])
+        
+        
+    }
+    
     //MARK:- TEST
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.teststrStr()
+       _ = self.testlongestCommonPrefix()
     }
 }
 
