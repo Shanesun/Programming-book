@@ -40,7 +40,7 @@
 ``` objective-c
 //MARK:14. 最长公共前缀
     func longestCommonPrefix(_ strs: [String]) -> String {
-        if strs.count == 0 {
+        if strs.count == 0{
             return ""
         }
         guard var commonPrefix = strs.first else {
