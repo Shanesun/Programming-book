@@ -15,6 +15,7 @@
 ## LeetCode
 [14. 最长公共前缀](#14-最长公共前缀)  
 [344. 反转字符串](#344-反转字符串)
+[561. 数组拆分 I](#561-数组拆分-I)
 
 ### 14. 最长公共前缀
 时间复杂度：O(n)  
@@ -103,5 +104,67 @@
     func testreverseString() {
         _ = reverseString("")
         _ = reverseString("A man, a plan, a canal: Panama")
+    }
+```
+
+### 561. 数组拆分 I
+时间复杂度：O(n) + O(nlogn) 
+空间复杂度：O(n)  
+观察需要数组按照从小到大排序，在按照数组下标为偶数相加，就是题目所求值。使用快排做排序时间复杂度O(nlogn)，快排空间复杂度为O(n)。排好后遍历下标偶数累加，时间复杂度O(n),空间复杂度O(1)  
+
+```objective-c
+//MARK: 561. 数组拆分 I
+    // 快排排序 nlog(n)，便利: 2n,偶数下标相加
+    func arrayPairSum(_ nums: [Int]) -> Int {
+        func quickSort(_ array: [Int]) -> [Int]{
+            guard array.count > 1 else {
+                return array
+            }
+            
+            let pivot = array.first!
+            
+            var less = [Int]()
+            var equal = [Int]()
+            var greater = [Int]()
+            
+            for i in 0..<array.count {
+                if array[i] == pivot {
+                    equal.append(array[i])
+                }
+                if array[i] < pivot {
+                    less.append(array[i])
+                }
+                if array[i] > pivot {
+                    greater.append(array[i])
+                }
+            }
+            
+            return quickSort(less) + equal + quickSort(greater)
+        }
+        
+        if nums.count == 0 {
+            return 0
+        }
+        
+        var arrayNums = quickSort(nums)
+        
+        var totalNum = 0
+        for index in 0..<arrayNums.count {
+            if index*2 > arrayNums.count-1 {
+                return totalNum
+            }
+            
+            totalNum += arrayNums[index*2];
+        }
+
+        return totalNum
+    }
+    func testarrayPairSum() {
+        
+        _ = self.arrayPairSum([1,2,3,2])
+        _ = self.arrayPairSum([1,4,3,2])
+        _ = self.arrayPairSum([])
+        _ = self.arrayPairSum([2,3])
+        _ = self.arrayPairSum([-21,0,2,3])
     }
 ```

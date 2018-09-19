@@ -659,27 +659,66 @@ class ViewController: UIViewController {
     }
     
     //MARK: 561. 数组拆分 I
-    // 快排排序，数学公式: 0~n-1,偶数相加
-//    func arrayPairSum(_ nums: [Int]) -> Int {
-//        func quickSort(_ array: [Int], start: Int, end: Int, pivotIndex: Int) {
-//            let value = array[pivotIndex]
-//
-//            while start <= end {
-//                let tmpStartValue = array[start]
-//            }
-//        }
-//
-//    }
-//    func testarrayPairSum() {
-//
-//    }
+    // 快排排序 nlog(n)，便利: 2n,偶数下标相加
+    func arrayPairSum(_ nums: [Int]) -> Int {
+        func quickSort(_ array: [Int]) -> [Int]{
+            guard array.count > 1 else {
+                return array
+            }
+            
+            let pivot = array.first!
+            
+            var less = [Int]()
+            var equal = [Int]()
+            var greater = [Int]()
+            
+            for i in 0..<array.count {
+                if array[i] == pivot {
+                    equal.append(array[i])
+                }
+                if array[i] < pivot {
+                    less.append(array[i])
+                }
+                if array[i] > pivot {
+                    greater.append(array[i])
+                }
+            }
+            
+            return quickSort(less) + equal + quickSort(greater)
+        }
+        
+        if nums.count == 0 {
+            return 0
+        }
+        
+        var arrayNums = quickSort(nums)
+        
+        var totalNum = 0
+        for index in 0..<arrayNums.count {
+            if index*2 > arrayNums.count-1 {
+                return totalNum
+            }
+            
+            totalNum += arrayNums[index*2];
+        }
+
+        return totalNum
+    }
+    func testarrayPairSum() {
+        
+        _ = self.arrayPairSum([1,2,3,2])
+        _ = self.arrayPairSum([1,4,3,2])
+        _ = self.arrayPairSum([])
+        _ = self.arrayPairSum([2,3])
+        _ = self.arrayPairSum([-21,0,2,3])
+    }
     
     
     //MARK:- TEST
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       self.testreverseString()
+       self.testarrayPairSum()
     }
 }
 
