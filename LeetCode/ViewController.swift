@@ -713,12 +713,33 @@ class ViewController: UIViewController {
         _ = self.arrayPairSum([-21,0,2,3])
     }
     
+    //MARK: 167. 两数之和 II - 输入有序数组
+    func twoSum2(_ numbers: [Int], _ target: Int) -> [Int] {
+        if numbers.count == 0 {
+            return numbers
+        }
+        for i in 0..<numbers.count {
+            for j in i+1..<numbers.count {
+                if numbers[i] + numbers[j] == target {
+                    return [i+1, j+1]
+                }
+            }
+        }
+        
+        return []
+    }
+    func testTwosum2() {
+        _ = self.twoSum2([], 0)
+        _ = self.twoSum2([2, 7, 11, 15], 0)
+        _ = self.twoSum2([2, 7, 11, 15], 9)
+        _ = self.twoSum2([2, 7, 11, 15], 26)
+    }
     
     //MARK:- TEST
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       self.testarrayPairSum()
+       self.testTwosum2()
     }
 }
 
