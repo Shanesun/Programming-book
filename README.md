@@ -26,6 +26,7 @@
 
 ## LeetCode
 [14. 最长公共前缀](#14-最长公共前缀)  
+[27. 移除元素](#27-移除元素)  
 [167. 两数之和 II - 输入有序数组](#167-两数之和-ii-输入有序数组)  
 [344. 反转字符串](#344-反转字符串)  
 [561. 数组拆分 I](#561-数组拆分-i)
@@ -208,5 +209,46 @@
         _ = self.twoSum2([2, 7, 11, 15], 0)
         _ = self.twoSum2([2, 7, 11, 15], 9)
         _ = self.twoSum2([2, 7, 11, 15], 26)
+    }
+```
+
+### 27. 移除元素
+时间复杂度：O(n)  
+控件复杂度：O(1)  
+**双指针**法，一个快指针执行遍历数据，一个慢指针指向需要储存被移除数据。遍历所有数据时间复杂度为O(n).同一个数组中储存未删除项和删除项，空间复杂度O(1)。  
+
+```swift
+//MARK: 27. 移除元素
+    func removeElement(_ nums: inout [Int], _ val: Int) -> Int {
+        if nums.count == 0 {
+            return 0
+        }
+        
+        var startIndex = 0
+        var removedIndex = nums.count-1
+        
+        while startIndex <= removedIndex {
+            if nums[startIndex] == val {
+                (nums[startIndex], nums[removedIndex]) = (nums[removedIndex], nums[startIndex])
+                removedIndex -= 1
+            } else {
+                startIndex += 1
+            }
+        }
+        
+        if removedIndex < 0 {
+            nums.removeAll()
+        } else {
+            nums.removeSubrange(removedIndex+1..<nums.endIndex)
+        }
+        
+        return nums.count
+    }
+    func testRemoveElement() {
+        var a1 = [3,2,2,3]
+        _ = self.removeElement(&a1, 3)
+        
+        var a2 = [3]
+        _ = self.removeElement(&a2, 3)
     }
 ```
