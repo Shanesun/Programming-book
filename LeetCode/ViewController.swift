@@ -735,11 +735,78 @@ class ViewController: UIViewController {
         _ = self.twoSum2([2, 7, 11, 15], 26)
     }
     
+    //MARK: 27. 移除元素
+    func removeElement(_ nums: inout [Int], _ val: Int) -> Int {
+        if nums.count == 0 {
+            return 0
+        }
+        
+        var startIndex = 0
+        var removedIndex = nums.count-1
+        
+        while startIndex <= removedIndex {
+            if nums[startIndex] == val {
+                (nums[startIndex], nums[removedIndex]) = (nums[removedIndex], nums[startIndex])
+                removedIndex -= 1
+            } else {
+                startIndex += 1
+            }
+        }
+        
+        if removedIndex < 0 {
+            nums.removeAll()
+        } else {
+            nums.removeSubrange(removedIndex+1..<nums.endIndex)
+        }
+        
+        return nums.count
+    }
+    func testRemoveElement() {
+        var a1 = [3,2,2,3]
+        _ = self.removeElement(&a1, 3)
+        
+        var a2 = [3]
+        _ = self.removeElement(&a2, 3)
+    }
+    
+    //MARK: 485. 最大连续1的个数
+    func findMaxConsecutiveOnes(_ nums: [Int]) -> Int {
+        if nums.count == 0 {
+            return 0
+        }
+        
+        var mostLength = 0
+        var tmpLength = 0
+        for (index, value) in nums.enumerated() {
+            if value == 1 {
+                tmpLength += 1
+            } else if value == 0 {
+                if tmpLength > mostLength {
+                    mostLength = tmpLength
+                }
+                tmpLength = 0
+            }
+            
+            if index == nums.count-1 {
+                if tmpLength > mostLength {
+                    mostLength = tmpLength
+                }
+            }
+        }
+        
+        return mostLength
+    }
+    func testFindMaxConsecutiveOnes() {
+        _ = self.findMaxConsecutiveOnes([1,1,0,1,1,1])
+        _ = self.findMaxConsecutiveOnes([])
+        _ = self.findMaxConsecutiveOnes([0,0,0])
+    }
+    
     //MARK:- TEST
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       self.testTwosum2()
+       self.testFindMaxConsecutiveOnes()
     }
 }
 
