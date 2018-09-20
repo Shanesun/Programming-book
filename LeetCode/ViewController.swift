@@ -769,11 +769,44 @@ class ViewController: UIViewController {
         _ = self.removeElement(&a2, 3)
     }
     
+    //MARK: 485. 最大连续1的个数
+    func findMaxConsecutiveOnes(_ nums: [Int]) -> Int {
+        if nums.count == 0 {
+            return 0
+        }
+        
+        var mostLength = 0
+        var tmpLength = 0
+        for (index, value) in nums.enumerated() {
+            if value == 1 {
+                tmpLength += 1
+            } else if value == 0 {
+                if tmpLength > mostLength {
+                    mostLength = tmpLength
+                }
+                tmpLength = 0
+            }
+            
+            if index == nums.count-1 {
+                if tmpLength > mostLength {
+                    mostLength = tmpLength
+                }
+            }
+        }
+        
+        return mostLength
+    }
+    func testFindMaxConsecutiveOnes() {
+        _ = self.findMaxConsecutiveOnes([1,1,0,1,1,1])
+        _ = self.findMaxConsecutiveOnes([])
+        _ = self.findMaxConsecutiveOnes([0,0,0])
+    }
+    
     //MARK:- TEST
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       self.testRemoveElement()
+       self.testFindMaxConsecutiveOnes()
     }
 }
 

@@ -29,6 +29,7 @@
 [27. 移除元素](#27-移除元素)  
 [167. 两数之和 II - 输入有序数组](#167-两数之和-ii-输入有序数组)  
 [344. 反转字符串](#344-反转字符串)  
+[485. 最大连续1的个数](485-最大连续1的个数)  
 [561. 数组拆分 I](#561-数组拆分-i)
 
 ### 14. 最长公共前缀
@@ -250,5 +251,45 @@
         
         var a2 = [3]
         _ = self.removeElement(&a2, 3)
+    }
+```
+
+### 485. 最大连续1的个数
+时间复杂度：O(n)  
+空间复杂度：O(1)  
+遍历数组，时间复杂度O(n)。
+
+```swift
+//MARK: 485. 最大连续1的个数
+    func findMaxConsecutiveOnes(_ nums: [Int]) -> Int {
+        if nums.count == 0 {
+            return 0
+        }
+        
+        var mostLength = 0
+        var tmpLength = 0
+        for (index, value) in nums.enumerated() {
+            if value == 1 {
+                tmpLength += 1
+            } else if value == 0 {
+                if tmpLength > mostLength {
+                    mostLength = tmpLength
+                }
+                tmpLength = 0
+            }
+            
+            if index == nums.count-1 {
+                if tmpLength > mostLength {
+                    mostLength = tmpLength
+                }
+            }
+        }
+        
+        return mostLength
+    }
+    func testFindMaxConsecutiveOnes() {
+        _ = self.findMaxConsecutiveOnes([1,1,0,1,1,1])
+        _ = self.findMaxConsecutiveOnes([])
+        _ = self.findMaxConsecutiveOnes([0,0,0])
     }
 ```
