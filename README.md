@@ -16,6 +16,7 @@
 | 桶排序 | O(n) | O(k) | 是 |
 
 ### 双指针技巧
+#### 1. 从两端向中间迭代
 **同时使用两个指针**进行迭代，使用双指针技巧的典型场景之一是你想要**从两端向中间迭代**数组。这时你可以使用双指针技巧：**一个指针从始端开始，而另一个指针从末端开始**。值得注意的是，这种技巧经常在**排序数组**中使用。
 
 常见场景：
@@ -23,6 +24,22 @@
 2. 快速排序变种算法
 3. 数据排序
 
+#### 2. 快慢指针
+> 经典题目：给定一个数组和一个值，原地删除该值的所有实例并返回新的长度。考虑空间限制，不重新创建空间。  
+解决方案：我们使用两个指针：一个仍然用于迭代，而第二个指针总是指向下一次添加删除元素的位置。 
+
+```swift
+func removeElement(nums: [Int], val: Int) {
+    let k = 0
+    for i in 0..<nums.count {
+        if nums[i] != val {
+            nums[k] = nums[i]
+            k += 1
+        }
+    }
+    return k
+}
+```
 
 ## LeetCode
 [14. 最长公共前缀](#14-最长公共前缀)  
@@ -37,7 +54,7 @@
 遍历一次`strs`数组，每两个比较一次获取 `commonPrefix` ，这样只需遍历一次O(n)时间复杂度。
 > leetCode中使用`commonPrefix(with:)`无法得到正确值，所以手写了一次匹配公共前缀逻辑，性能上不确定是否是最优。
 
-``` objective-c
+```swift
 //MARK:14. 最长公共前缀
     func longestCommonPrefix(_ strs: [String]) -> String {
         if strs.count == 0{
@@ -91,7 +108,7 @@
 空间复杂度：O(1)  
 **使用双指针**一个在头部，一个在尾部，指针迭代向中间靠拢。
 
-```objective-c
+```swift
     //MARK:344. 反转字符串
     func reverseString(_ s: String) -> String {
         if s.count == 0 {
@@ -125,7 +142,7 @@
 空间复杂度：O(n)  
 观察需要数组按照从小到大排序，在按照数组下标为偶数相加，就是题目所求值。使用快排做排序时间复杂度O(nlogn)，快排空间复杂度为O(n)。排好后遍历下标偶数累加，时间复杂度O(n),空间复杂度O(1)  
 
-```objective-c
+```swift
 //MARK: 561. 数组拆分 I
     // 快排排序 nlog(n)，便利: 2n,偶数下标相加
     func arrayPairSum(_ nums: [Int]) -> Int {
@@ -187,7 +204,7 @@
 空间复杂度：O(1)  
 2次遍历数组，内存其实下标比外层大1。  
 
-```objective-c
+```swift
  //MARK: 167. 两数之和 II - 输入有序数组
     func twoSum2(_ numbers: [Int], _ target: Int) -> [Int] {
         if numbers.count == 0 {
