@@ -802,11 +802,45 @@ class ViewController: UIViewController {
         _ = self.findMaxConsecutiveOnes([0,0,0])
     }
     
+    //MARK: 209. 长度最小的子数组
+    func minSubArrayLen(_ s: Int, _ nums: [Int]) -> Int {
+        var pre = 0
+        var after = -1
+        var total = 0
+        
+        var lestCount = nums.count+1;
+        
+        while pre < nums.count {
+            if after+1<nums.count && total<s {
+                after += 1
+                total += nums[after]
+                
+            } else {
+                total -= nums[pre]
+                pre += 1;
+            }
+            
+            if total >= s {
+                if  after - pre + 1 < lestCount {
+                    lestCount = after - pre + 1
+                }
+            }
+        }
+        if lestCount == nums.count + 1 {
+            return 0
+        }
+        
+        return lestCount
+    }
+    func testminSubArrayLen() {
+        _ = self.minSubArrayLen(15, [5,1,3,5,10,7,4,9,2,8])
+    }
+    
     //MARK:- TEST
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       self.testFindMaxConsecutiveOnes()
+       self.testminSubArrayLen()
     }
 }
 

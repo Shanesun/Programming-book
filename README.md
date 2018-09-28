@@ -16,18 +16,27 @@
 | 桶排序 | O(n) | O(k) | 是 |
 
 ### 双指针技巧
+#### 对撞指针
 **同时使用两个指针**进行迭代，使用双指针技巧的典型场景之一是你想要**从两端向中间迭代**数组。这时你可以使用双指针技巧：**一个指针从始端开始，而另一个指针从末端开始**。值得注意的是，这种技巧经常在**排序数组**中使用。
 
 常见场景：
 1. 反转数组中的元素  
 2. 快速排序变种算法
-3. 数据排序
+3. 数据排序  
+
+[344. 反转字符串](#344-反转字符串)  
+[167. 两数之和 II - 输入有序数组](#167-两数之和-ii-输入有序数组)   
+
+#### 滑窗指针
+**使用两个指针一前一后遍历**，根据前后指针不同位置，指针闭区间内可以覆盖所有连续组合。
+
 
 
 ## LeetCode
 [14. 最长公共前缀](#14-最长公共前缀)  
 [27. 移除元素](#27-移除元素)  
 [167. 两数之和 II - 输入有序数组](#167-两数之和-ii-输入有序数组)  
+[209. 长度最小的子数组](209-长度最小的子数组)  
 [344. 反转字符串](#344-反转字符串)  
 [485. 最大连续1的个数](485-最大连续1的个数)  
 [561. 数组拆分 I](#561-数组拆分-i)
@@ -85,6 +94,42 @@
         _ = self.longestCommonPrefix(["dog","racecar","car"])
         _ = self.longestCommonPrefix(["dog","racecar",""])
         _ = self.longestCommonPrefix([])
+    }
+```  
+### 209. 长度最小的子数组
+时间复杂度：O(n)  
+控件复杂度：O(1)  
+要求是连续子数组，所以我们必须定义 i，j两个指针，i 向前遍历，j 向后遍历，相当与一个滑块，这样所有的子数组都会在 [i...j] 中出现，如果 nums[i..j] 的和小于目标值 s，那么j向后移一位，再次比较，直到大于目标值 s 之后，i 向前移动一位，缩小数组的长度。遍历到i到数组的最末端，就算结束了，如果不存在符合条件的就返回 0。  
+
+```swift
+ func minSubArrayLen(_ s: Int, _ nums: [Int]) -> Int {
+        var pre = 0
+        var after = -1
+        var total = 0
+        
+        var lestCount = nums.count+1;
+        
+        while pre < nums.count {
+            if after+1<nums.count && total<s {
+                after += 1
+                total += nums[after]
+                
+            } else {
+                total -= nums[pre]
+                pre += 1;
+            }
+            
+            if total >= s {
+                if  after - pre + 1 < lestCount {
+                    lestCount = after - pre + 1
+                }
+            }
+        }
+        if lestCount == nums.count + 1 {
+            return 0
+        }
+        
+        return lestCount
     }
 ```
 
