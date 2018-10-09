@@ -1,15 +1,14 @@
 //
-//  ViewController.swift
+//  LeetCode.swift
 //  LeetCode
 //
-//  Created by Shane on 2018/9/7.
+//  Created by Shane on 2018/9/30.
 //  Copyright © 2018 Shane. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
-    
+class LeetCode: NSObject {
     //MARK: 字符串模板
     func wordPattern(_ pattern: String, _ str: String) -> Bool {
         let strArray = str.split(separator: " ")
@@ -45,11 +44,11 @@ class ViewController: UIViewController {
         }
     }
     func textWordPattern() {
-       _ = wordPattern("abba", "dog cat cat dog")
-       _ = wordPattern("abba", "dog cat cat fish")
-       _ = wordPattern("aaaa", "dog cat cat dog")
-       _ = wordPattern("abba", "dog dog dog dog")
-       _ = wordPattern("aba", "dog dog dog dog")
+        _ = wordPattern("abba", "dog cat cat dog")
+        _ = wordPattern("abba", "dog cat cat fish")
+        _ = wordPattern("aaaa", "dog cat cat dog")
+        _ = wordPattern("abba", "dog dog dog dog")
+        _ = wordPattern("aba", "dog dog dog dog")
     }
     
     //MARK: 两数求和
@@ -67,9 +66,9 @@ class ViewController: UIViewController {
         return [Int]()
     }
     func textTwoSum() {
-       _ = twoSum([2, 7, 11, 15], 15)
+        _ = twoSum([2, 7, 11, 15], 15)
     }
-  
+    
     
     
     //MARK: 两数相加
@@ -286,7 +285,7 @@ class ViewController: UIViewController {
         var cIndex = 0
         
         var typeH = 0
-
+        
         while rIndex < matrix.count && cIndex < matrix.last!.count {
             array.append(matrix[rIndex][cIndex])
             
@@ -304,9 +303,9 @@ class ViewController: UIViewController {
                     
                     typeH = 1
                 } else if (typeH == 1){
-                     if rIndex == matrix.count-1 {
+                    if rIndex == matrix.count-1 {
                         cIndex = cIndex + 1
-                     } else {
+                    } else {
                         rIndex = rIndex + 1
                         cIndex = cIndex - 1
                     }
@@ -409,7 +408,7 @@ class ViewController: UIViewController {
                 resultArray.append(matrix[matrix.count-1 - r][cIndex])
             }
             
-          
+            
             cIndexMax = cIndexMax - 1
             cIndex = cIndex + 1
             
@@ -419,7 +418,7 @@ class ViewController: UIViewController {
             if (cIndexMax<cIndex || rIndexMax<rIndex) {
                 return resultArray;
             }
-        
+            
             if rIndexMax-rIndex < 1 {
                 for c in cIndex...cIndexMax {
                     resultArray.append(matrix[rIndex][c])
@@ -577,7 +576,7 @@ class ViewController: UIViewController {
     }
     func teststrStr() {
         _ = self.strStr("", "a")
-       _ = self.strStr("hello", "ll")
+        _ = self.strStr("hello", "ll")
         _ = self.strStr("aaaaa", "bba")
         _ = self.strStr("a", "bba")
         _ = self.strStr("a", "")
@@ -598,7 +597,7 @@ class ViewController: UIViewController {
             if value == "" { return "" }
             if commonPrefix == value { continue }
             
-//            let tmpPrefix = value.commonPrefix(with: commonPrefix!) // leetCode 编译器无法正确返回commonPrefix 方法
+            //            let tmpPrefix = value.commonPrefix(with: commonPrefix!) // leetCode 编译器无法正确返回commonPrefix 方法
             let commonPrefixArray = Array(commonPrefix)
             let valueArray = Array(value)
             
@@ -623,7 +622,7 @@ class ViewController: UIViewController {
         return commonPrefix
     }
     func testlongestCommonPrefix() {
-         _ = self.longestCommonPrefix(["abca","abc"])
+        _ = self.longestCommonPrefix(["abca","abc"])
         _ = self.longestCommonPrefix(["flower","flow","flight"])
         _ = self.longestCommonPrefix(["dog","racecar","car"])
         _ = self.longestCommonPrefix(["dog","racecar",""])
@@ -701,7 +700,7 @@ class ViewController: UIViewController {
             
             totalNum += arrayNums[index*2];
         }
-
+        
         return totalNum
     }
     func testarrayPairSum() {
@@ -836,11 +835,29 @@ class ViewController: UIViewController {
         _ = self.minSubArrayLen(15, [5,1,3,5,10,7,4,9,2,8])
     }
     
-    //MARK:- TEST
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    //MARK: 189. 旋转数组
+    func rotate(_ nums: inout [Int], _ k: Int) {
         
-       self.testminSubArrayLen()
+        var i = 0
+        var j = i
+        var tmp = nums[i]
+        var exchanged = nums[j]
+        
+        while i<nums.count {
+            if j >= nums.count {
+                j = j%nums.count-1
+                
+                if j == i {
+                    i += 1
+                    j = i
+                    continue
+                }
+            } else {
+                j += k
+                tmp = nums[j]
+                nums[j] = exchanged
+                exchanged = tmp
+            }
+        }
     }
 }
-

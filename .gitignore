@@ -1,3 +1,6 @@
 /LeetCode.xcodeproj/project.xcworkspace/xcuserdata/shane.xcuserdatad/UserInterfaceState.xcuserstate
 *.xcuserstate
 *.xcbkptlist
+xcuserdata
+xcshareddata
+.DS_Store
