@@ -838,25 +838,63 @@ class LeetCode: NSObject {
     //MARK: 189. 旋转数组
     func rotate(_ nums: inout [Int], _ k: Int) {
         
-        var i = 0
-        var j = i
-        var tmp = nums[i]
-        var exchanged = nums[j]
+        if nums.count == 0 || nums.count == 1 {
+            return
+        }
         
-        while i<nums.count {
+        var realK = k
+        if k>nums.count {
+            realK = k%nums.count
+        }
+        
+        var i = 0
+        var useCount = 0
+        var j = i+realK
+        var tmp = nums[i]
+        var exchanged = nums[i]
+        
+        while useCount<nums.count {
             if j >= nums.count {
-                j = j%nums.count-1
-                
-                if j == i {
-                    i += 1
-                    j = i
-                    continue
-                }
+                j = j%nums.count
             } else {
-                j += k
                 tmp = nums[j]
                 nums[j] = exchanged
                 exchanged = tmp
+                
+                useCount += 1
+                
+                if j == i {
+                    i += 1
+                    if i >= nums.count {
+                        break
+                    }
+                    exchanged = nums[i]
+                    j = i+realK
+                } else {
+                    j += realK
+                }
+            }
+        }
+    }
+    //MARK: 189. 旋转数组(第二种方法)
+    func rotate2(_ nums: inout [Int], _ k: Int) {
+        if nums.count == 0 || nums.count == 1 {
+            return
+        }
+        
+        var realK = k
+        if k > nums.count {
+            realK = k%nums.count
+        }
+        
+        for _ in 0..<realK {
+            var exchange = nums[nums.count-1]
+            var tmp = nums[0]
+            
+            for (index, value) in nums.enumerated() {
+                tmp = value
+                nums[index] = exchange
+                exchange = tmp
             }
         }
     }
