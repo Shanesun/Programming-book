@@ -837,7 +837,6 @@ class LeetCode: NSObject {
     
     //MARK: 189. 旋转数组
     func rotate(_ nums: inout [Int], _ k: Int) {
-        
         if nums.count == 0 || nums.count == 1 {
             return
         }

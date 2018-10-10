@@ -52,6 +52,7 @@ func removeElement(nums: [Int], val: Int) {
 [14. 最长公共前缀](#14-最长公共前缀)  
 [27. 移除元素](#27-移除元素)  
 [167. 两数之和 II - 输入有序数组](#167-两数之和-ii-输入有序数组)  
+[189. 旋转数组](189-旋转数组) 
 [209. 长度最小的子数组](209-长度最小的子数组)  
 [344. 反转字符串](#344-反转字符串)  
 [485. 最大连续1的个数](485-最大连续1的个数)  
@@ -273,7 +274,81 @@ func removeElement(nums: [Int], val: Int) {
         _ = self.twoSum2([2, 7, 11, 15], 26)
     }
 ```
+### 189. 旋转数组
+时间复杂度：O(n)  
+控件负载度：O(1)  
+方法一：while循环的终止条件是所有元素都遍历完。使用的是原地数据保存所有空间复杂度O(1)。  
+方法二：思路更简单但是时间复杂度更高，空间复杂度还是O(1)。移动k次可以拆解成1+1+1...+1，每次右移一次，移动了k次。  
 
+```swift
+//方法一
+//MARK: 189. 旋转数组
+    func rotate(_ nums: inout [Int], _ k: Int) {
+        if nums.count == 0 || nums.count == 1 {
+            return
+        }
+        
+        var realK = k
+        if k>nums.count {
+            realK = k%nums.count
+        }
+        
+        var i = 0
+        var useCount = 0
+        var j = i+realK
+        var tmp = nums[i]
+        var exchanged = nums[i]
+        
+        while useCount<nums.count {
+            if j >= nums.count {
+                j = j%nums.count
+            } else {
+                tmp = nums[j]
+                nums[j] = exchanged
+                exchanged = tmp
+                
+                useCount += 1
+                
+                if j == i {
+                    i += 1
+                    if i >= nums.count {
+                        break
+                    }
+                    exchanged = nums[i]
+                    j = i+realK
+                } else {
+                    j += realK
+                }
+            }
+        }
+    }
+```
+
+```swift
+// 方法二
+//MARK: 189. 旋转数组(第二种方法)
+func rotate2(_ nums: inout [Int], _ k: Int) {
+    if nums.count == 0 || nums.count == 1 {
+        return
+    }
+    
+    var realK = k
+    if k > nums.count {
+        realK = k%nums.count
+    }
+    
+    for _ in 0..<realK {
+        var exchange = nums[nums.count-1]
+        var tmp = nums[0]
+        
+        for (index, value) in nums.enumerated() {
+            tmp = value
+            nums[index] = exchange
+            exchange = tmp
+        }
+    }
+}
+```
 ### 27. 移除元素
 时间复杂度：O(n)  
 控件复杂度：O(1)  
@@ -281,39 +356,41 @@ func removeElement(nums: [Int], val: Int) {
 
 ```swift
 //MARK: 27. 移除元素
-    func removeElement(_ nums: inout [Int], _ val: Int) -> Int {
-        if nums.count == 0 {
-            return 0
-        }
-        
-        var startIndex = 0
-        var removedIndex = nums.count-1
-        
-        while startIndex <= removedIndex {
-            if nums[startIndex] == val {
-                (nums[startIndex], nums[removedIndex]) = (nums[removedIndex], nums[startIndex])
-                removedIndex -= 1
-            } else {
-                startIndex += 1
-            }
-        }
-        
-        if removedIndex < 0 {
-            nums.removeAll()
+func removeElement(_ nums: inout [Int], _ val: Int) -> Int {
+    if nums.count == 0 {
+        return 0
+    }
+    
+    var startIndex = 0
+    var removedIndex = nums.count-1
+    
+    while startIndex <= removedIndex {
+        if nums[startIndex] == val {
+            (nums[startIndex], nums[removedIndex]) = (nums[removedIndex], nums[startIndex])
+            removedIndex -= 1
         } else {
-            nums.removeSubrange(removedIndex+1..<nums.endIndex)
+            startIndex += 1
         }
-        
-        return nums.count
     }
-    func testRemoveElement() {
-        var a1 = [3,2,2,3]
-        _ = self.removeElement(&a1, 3)
-        
-        var a2 = [3]
-        _ = self.removeElement(&a2, 3)
+    
+    if removedIndex < 0 {
+        nums.removeAll()
+    } else {
+        nums.removeSubrange(removedIndex+1..<nums.endIndex)
     }
-```
+    
+    return nums.count
+}
+func testRemoveElement() {
+    var a1 = [3,2,2,3]
+    _ = self.removeElement(&a1, 3)
+    
+    var a2 = [3]
+    _ = self.removeElement(&a2, 3)
+}
+```  
+
+
 
 ### 485. 最大连续1的个数
 时间复杂度：O(n)  
