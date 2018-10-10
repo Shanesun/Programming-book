@@ -31,7 +31,10 @@ class LeetCodeTests: XCTestCase {
         
         var arr = [1,2,3,4,5,6]
         leetCode.rotate(&arr, 2)
-        
+    }
+    
+    func testgetRow() {
+       let t = leetCode.getRow(5)
     }
 
     func testPerformanceExample() {

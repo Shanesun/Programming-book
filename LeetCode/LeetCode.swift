@@ -898,4 +898,29 @@ class LeetCode: NSObject {
             }
         }
     }
+    
+    //MARK: 119. 杨辉三角 II
+    func getRow(_ rowIndex: Int) -> [Int] {
+        var arr = [Int]()
+        var preValue = 1
+        
+        for k in 0...rowIndex {
+            for i in 0...k {
+                if i == k {
+                    arr.append(1)
+                } else if i == 0 {
+                    preValue = arr[i]
+                    arr[i] = 1
+                } else {
+                    let tmpPreValue = arr[i];
+                    
+                    arr[i] = tmpPreValue + preValue
+                    
+                    preValue = tmpPreValue
+                }
+            }
+        }
+        
+        return arr
+    }
 }
