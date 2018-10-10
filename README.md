@@ -51,6 +51,7 @@ func removeElement(nums: [Int], val: Int) {
 ## LeetCode
 [14. 最长公共前缀](#14-最长公共前缀)  
 [27. 移除元素](#27-移除元素)  
+[119. 杨辉三角 II](119-杨辉三角-II)  
 [167. 两数之和 II - 输入有序数组](#167-两数之和-ii-输入有序数组)  
 [189. 旋转数组](189-旋转数组) 
 [209. 长度最小的子数组](209-长度最小的子数组)  
@@ -113,6 +114,37 @@ func removeElement(nums: [Int], val: Int) {
         _ = self.longestCommonPrefix([])
     }
 ```  
+### 119. 杨辉三角 II
+时间复杂度：O(n^2)  
+控件复杂度：O(n)  
+题目要求只能使用O(n)空间复杂度，所以是在长度为n的数组上迭代杨辉三角，使用指针保存上一次左邻元素的值，与当前位置元素相加后，再将当前位置未加前的值保存到指针中，循环遍历。
+
+```swift
+//MARK: 119. 杨辉三角 II
+func getRow(_ rowIndex: Int) -> [Int] {
+    var arr = [Int]()
+    var preValue = 1
+    
+    for k in 0...rowIndex {
+        for i in 0...k {
+            if i == k {
+                arr.append(1)
+            } else if i == 0 {
+                preValue = arr[i]
+                arr[i] = 1
+            } else {
+                let tmpPreValue = arr[i];
+                
+                arr[i] = tmpPreValue + preValue
+                
+                preValue = tmpPreValue
+            }
+        }
+    }
+    
+    return arr
+}
+```
 ### 209. 长度最小的子数组
 时间复杂度：O(n)  
 控件复杂度：O(1)  
