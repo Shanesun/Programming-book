@@ -36,6 +36,17 @@ class LeetCodeTests: XCTestCase {
     func testgetRow() {
        let t = leetCode.getRow(5)
     }
+    
+    func testnumIslands(){
+        XCTAssertEqual(leetCode.numIslands([["0","1","0"],["1","0","1"],["0","1","0"]]), 4)
+        XCTAssertEqual(leetCode.numIslands([["1","1","0","0","0"],["1","1","0","0","0"],["0","0","1","0","0"],["0","0","0","1","1"]]), 3)
+        XCTAssertEqual(leetCode.numIslands([["0","1","0"]]), 1)
+        XCTAssertEqual(leetCode.numIslands([["1","1","1"]]), 1)
+        XCTAssertEqual(leetCode.numIslands([["0","0","0"]]), 0)
+        XCTAssertEqual(leetCode.numIslands([["0"]]), 0)
+        XCTAssertEqual(leetCode.numIslands([["0"],["1"]]), 1)
+        XCTAssertEqual(leetCode.numIslands([["1","1","1","1","0"],["1","1","0","1","0"],["1","1","0","0","0"],["0","0","0","0","0"]]), 1)
+    }
 
     func testPerformanceExample() {
         // This is an example of a performance test case.

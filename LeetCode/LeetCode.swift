@@ -922,4 +922,91 @@ class LeetCode: NSObject {
         
         return arr
     }
+    
+    // 岛屿的个数
+    func numIslands(_ grid: [[Character]]) -> Int {
+        var numIsLands = 0
+        if grid.count == 0 {
+            return 0
+        }
+        
+        struct Point {
+            var i = 0
+            var j = 0
+        }
+        
+        var arr = [Point]()
+        var tmpChild = [Point]()
+
+        arr.append(Point(i: 0,j: 0))
+        
+        var isAppearLand = false
+        
+        while arr.count > 0 {
+            var isLandInNerberhud = false
+            for (index, point) in arr.enumerated() {
+                var aloneLand = false
+                if grid[point.i][point.j] == "1" {
+                    isAppearLand = true
+                    isLandInNerberhud = true
+                }
+                
+                if point.i+1 == grid.count &&  point.j+1 == grid[point.i].count {
+                    if isAppearLand {
+                        isAppearLand = false
+                        numIsLands += 1
+                    }
+                    arr.removeAll()
+                    break;
+                }
+                
+                if point.i-1 > 0 {
+                    if grid[point.i-1][point.j] == "0" {
+                        aloneLand = true
+                    }
+                }
+                if point.j-1 > 0 {
+                    if grid[point.i][point.j-1] == "0" {
+                        aloneLand = true
+                    }
+                }
+                
+                var tmpi = point.i
+                var tmpj = point.j
+                if point.i+1 < grid.count {
+                    tmpi = point.i + 1
+                    tmpChild.append(Point(i: tmpi, j: point.j))
+                    if grid[tmpi][point.j] == "0" {
+                        aloneLand = true
+                    }
+                }
+                
+                if point.j+1 < grid[point.i].count {
+                    tmpj = point.j + 1
+                    tmpChild.append(Point(i: point.i, j: tmpj))
+                    if grid[point.i][tmpj] == "0" {
+                        aloneLand = true
+                    }
+                }
+                
+                if aloneLand {
+                    numIsLands += 1
+                }
+                
+                if index == arr.count-1 {
+                    if isAppearLand && isLandInNerberhud == false {
+                        isAppearLand = false
+                        numIsLands += 1
+                    }
+                    
+                    arr = tmpChild
+                    tmpChild.removeAll()
+                }
+            }
+        }
+       
+        
+        
+        return numIsLands
+    }
 }
