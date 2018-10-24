@@ -923,7 +923,7 @@ class LeetCode: NSObject {
         return arr
     }
     
-    // 岛屿的个数
+    // 200. 岛屿的个数
     func numIslands(_ grid: [[Character]]) -> Int {
         var numIsLands = 0
         if grid.count == 0 {
@@ -937,6 +937,7 @@ class LeetCode: NSObject {
             var j = 0
         }
         
+        // 广度优先
         func BFS( _ grid:inout [[Character]], _ row: Int, _ col: Int) {
             if grid[row][col] == "0" {
                 return

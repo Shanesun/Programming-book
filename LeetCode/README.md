@@ -6,6 +6,8 @@
 [119. 杨辉三角 II](119-杨辉三角-II)  
 [167. 两数之和 II - 输入有序数组](#167-两数之和-ii-输入有序数组)  
 [189. 旋转数组](189-旋转数组) 
+[200. 岛屿的个数](200-岛屿的个数)
+
 [209. 长度最小的子数组](209-长度最小的子数组)  
 [344. 反转字符串](#344-反转字符串)  
 [485. 最大连续1的个数](485-最大连续1的个数)  
@@ -333,7 +335,110 @@ func rotate2(_ nums: inout [Int], _ k: Int) {
     }
 }
 ```
+### 200. 岛屿的个数
+
+时间复杂度：O(n*m)  
+
+控件复杂度：O(n)  
+
+这个问题使用了BFS来解决：  
+
+1. 嵌套for循环遍历所有点。
+2. 最内层循环中只要当前的点等于"1"，则进行3.
+3. 在2中对等于"1"点，进行BFS寻找所有临点的临点直到临点不为"1"。并且把BFS遍历过的置为"0"
+4. 直到1中遍历完所有点。
+
+因为使用了2层嵌套`O(n*m)`，并且在嵌套中进行了BFS遍历这是一个`n*m`,这是`O(n*m)`的一个常数，总时间复杂度就为`O(n*m)`。创建了一个数组存一次广度的所有邻居节点，所以最大则为`O(n)`。
+
+```swift
+ // 200. 岛屿的个数
+    func numIslands(_ grid: [[Character]]) -> Int {
+        var numIsLands = 0
+        if grid.count == 0 {
+            return 0
+        }
+        
+        var grid = grid
+        
+        struct Point {
+            var i = 0
+            var j = 0
+        }
+        
+        // 广度优先
+        func BFS( _ grid:inout [[Character]], _ row: Int, _ col: Int) {
+            if grid[row][col] == "0" {
+                return
+            }
+            
+            var queue = [Point]()
+            var tmpChild = [Point]()
+            
+            queue.append(Point(i: row, j: col))
+            
+            while queue.count > 0 {
+                for (_, point) in queue.enumerated() {
+                    // 上方节点
+                    if (point.i - 1) >= 0 {
+                        let childPoint = Point(i: point.i - 1, j: point.j)
+                        if grid[point.i - 1][point.j] == "1" {
+                            grid[childPoint.i][childPoint.j] = "0"
+                            tmpChild.append(childPoint)
+                        }
+                    }
+                    
+                    // 左节点
+                    if (point.j - 1) >= 0 {
+                        let childPoint = Point(i: point.i, j: point.j-1)
+                        if grid[point.i][point.j-1] == "1" {
+                            grid[childPoint.i][childPoint.j] = "0"
+                            tmpChild.append(childPoint)
+                        }
+                    }
+                    
+                    // 下方节点
+                    if (point.i + 1) < grid.count {
+                        let childPoint = Point(i: point.i+1, j: point.j)
+                        if grid[childPoint.i][childPoint.j] == "1" {
+                            grid[childPoint.i][childPoint.j] = "0"
+                            tmpChild.append(childPoint)
+                        }
+                    }
+                    
+                    // 右方节点
+                    if (point.j + 1) < grid[point.i].count {
+                        let childPoint = Point(i: point.i, j: point.j+1)
+                        if grid[childPoint.i][childPoint.j] == "1" {
+                            grid[childPoint.i][childPoint.j] = "0"
+                            tmpChild.append(childPoint)
+                        }
+                    }
+                    
+                }
+                
+                queue = tmpChild
+                tmpChild.removeAll()
+            }
+            
+        }
+        
+        for row in 0..<grid.count {
+            for col in 0..<grid[row].count {
+                if grid[row][col] == "1" {
+                    BFS(&grid, row, col)
+                    numIsLands += 1
+                }
+            }
+        }
+       
+        return numIsLands
+    }
+```
+
+
+
 ### 27. 移除元素
+
 时间复杂度：O(n)  
 控件复杂度：O(1)  
 **双指针**法，一个快指针执行遍历数据，一个慢指针指向需要储存被移除数据。遍历所有数据时间复杂度为O(n).同一个数组中储存未删除项和删除项，空间复杂度O(1)。  
@@ -415,3 +520,4 @@ func testRemoveElement() {
         _ = self.findMaxConsecutiveOnes([0,0,0])
     }
 ```
+
