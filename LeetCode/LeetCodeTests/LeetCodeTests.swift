@@ -34,10 +34,12 @@ class LeetCodeTests: XCTestCase {
     }
     
     func testgetRow() {
-       let t = leetCode.getRow(5)
+        _ = leetCode.getRow(5)
     }
     
     func testnumIslands(){
+        XCTAssertEqual(leetCode.numIslands([["1","1","1","1"],["1","1","0","0"],["0","0","1","0"],["0","0","0","1"]]), 3)
+        
         XCTAssertEqual(leetCode.numIslands([["0","1","0"],["1","0","1"],["0","1","0"]]), 4)
         XCTAssertEqual(leetCode.numIslands([["1","1","0","0","0"],["1","1","0","0","0"],["0","0","1","0","0"],["0","0","0","1","1"]]), 3)
         XCTAssertEqual(leetCode.numIslands([["0","1","0"]]), 1)

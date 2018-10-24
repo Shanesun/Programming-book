@@ -930,33 +930,78 @@ class LeetCode: NSObject {
             return 0
         }
         
+        var grid = grid
+        
         struct Point {
             var i = 0
             var j = 0
         }
         
-        var arr = [Point]()
-        var tmpChild = [Point]()
-
-        arr.append(Point(i: 0,j: 0))
-        
-        var isAppearLand = false
-        
-        while arr.count > 0 {
-            var isLandInNerberhud = false
-            for (index, point) in arr.enumerated() {
-                if grid[point.i][point.j] == "1" {
-                    isAppearLand = true
+        func BFS( _ grid:inout [[Character]], _ row: Int, _ col: Int) {
+            if grid[row][col] == "0" {
+                return
+            }
+            
+            var queue = [Point]()
+            var tmpChild = [Point]()
+            
+            queue.append(Point(i: row, j: col))
+            
+            while queue.count > 0 {
+                for (_, point) in queue.enumerated() {
+                    // 上方节点
+                    if (point.i - 1) >= 0 {
+                        let childPoint = Point(i: point.i - 1, j: point.j)
+                        if grid[point.i - 1][point.j] == "1" {
+                            grid[childPoint.i][childPoint.j] = "0"
+                            tmpChild.append(childPoint)
+                        }
+                    }
+                    
+                    // 左节点
+                    if (point.j - 1) >= 0 {
+                        let childPoint = Point(i: point.i, j: point.j-1)
+                        if grid[point.i][point.j-1] == "1" {
+                            grid[childPoint.i][childPoint.j] = "0"
+                            tmpChild.append(childPoint)
+                        }
+                    }
+                    
+                    // 下方节点
+                    if (point.i + 1) < grid.count {
+                        let childPoint = Point(i: point.i+1, j: point.j)
+                        if grid[childPoint.i][childPoint.j] == "1" {
+                            grid[childPoint.i][childPoint.j] = "0"
+                            tmpChild.append(childPoint)
+                        }
+                    }
+                    
+                    // 右方节点
+                    if (point.j + 1) < grid[point.i].count {
+                        let childPoint = Point(i: point.i, j: point.j+1)
+                        if grid[childPoint.i][childPoint.j] == "1" {
+                            grid[childPoint.i][childPoint.j] = "0"
+                            tmpChild.append(childPoint)
+                        }
+                    }
+                    
                 }
-                // 下方节点
-                if (point.i + 1) < grid.count {
-                    tmpChild.append(Point(i: point.i+1, j: point.j))
+                
+                queue = tmpChild
+                tmpChild.removeAll()
+            }
+            
+        }
+        
+        for row in 0..<grid.count {
+            for col in 0..<grid[row].count {
+                if grid[row][col] == "1" {
+                    BFS(&grid, row, col)
+                    numIsLands += 1
                 }
             }
         }
        
-        
-        
         return numIsLands
     }
 }
