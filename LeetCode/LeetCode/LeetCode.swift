@@ -1005,4 +1005,40 @@ class LeetCode: NSObject {
        
         return numIsLands
     }
+    
+    //MARK: 打开转盘锁
+    func openLock(_ deadends: [String], _ target: String) -> Int {
+        if deadends.contains("0000") {
+            return -1
+        }
+        
+        var stepCount = 1
+        var queue = [[Int]]()
+        var lockNumber = [0,0,0,0]
+        var targetArray = Array(target).map { (value) -> Int in
+            return Int(String(value))!
+        }
+        
+        queue.append([0,0,0,0])
+        var oriTargetArray = targetArray
+        
+        var bestStepCount = stepCount;
+        for value in targetArray {
+            if value > 5 {
+                bestStepCount += 9-value+1;
+            } else {
+                bestStepCount += value
+            }
+        }
+        
+        var valiArray = [[Int]]()
+        var otherArray = [[Int]]()
+        
+        while queue.count != 0 {
+            for
+        }
+        
+        
+        return stepCount
+    }
 }
