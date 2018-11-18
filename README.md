@@ -42,11 +42,52 @@
 
 ### 4. 栈
 
+
+
 ### 5. 图
 
+* BFS
+
+* DFS
 
 
+### 6. 树
 
+* 深度优先遍历
+1. 先序遍历
+```c
+void pre_order_traversal(TreeNode *root) {
+    // Do Something with root
+    if (root->lchild != NULL)
+        pre_order_traversal(root->lchild);
+    if (root->rchild != NULL)
+        pre_order_traversal(root->rchild);
+}
+```
+2. 中序遍历
+```c
+void in_order_traversal(TreeNode *root) {
+    if (root->lchild != NULL)
+        in_order_traversal(root->lchild);
+    // Do Something with root
+    if (root->rchild != NULL)
+        in_order_traversal(root->rchild);
+}
+```
+3. 后序遍历
+```c
+void post_order_traversal(TreeNode *root) {
+    if (root->lchild != NULL)
+        post_order_traversal(root->lchild);
+    if (root->rchild != NULL)
+        post_order_traversal(root->rchild);
+    // Do Something with root
+}
+```
+每一种遍历都包含递归和非递归两种方式。递归的本质是栈，非递归算法其实就是递归换成栈结构实现。
+
+* 广度优先遍历
+  队列实现
 
 ## 算法
 ### 双指针技巧
