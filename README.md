@@ -27,7 +27,7 @@
 
 哈希表（Hash Table，也叫散列表），是根据关键码值 (Key-Value) 而直接进行访问的数据结构。也就是说，它通过把关键码值映射到表中一个位置来访问记录，以加快查找的速度。哈希表的实现主要需要解决两个问题，哈希函数和冲突解决。
 
-### 哈希函数
+#### 哈希函数
 
 哈希表的关键思想是使用哈希函数`将键映射到存储桶`。更确切地说，
 
@@ -36,7 +36,7 @@
 
 > 比如：对key的值进行hash后对数组长度%，这就是一个哈希函数。
 
-### 冲突解决 
+#### 冲突解决 
 
 在方法冲突时有多种方式来解决冲突，开放定址法，链地址法，建立公共溢出区等。实际的哈希表实现中，使用最多的是链地址法：
 
@@ -77,6 +77,8 @@
 
 树是图的一种特殊退化形式。
 
+#### 树的遍历
+
 * 深度优先遍历
 1. 先序遍历
 ```c
@@ -114,9 +116,9 @@ void post_order_traversal(TreeNode *root) {
   队列实现
 
 ## 算法
-### 双指针技巧
+### 1. 指针（双指针技巧）
 
-#### 1. 从两端向中间迭代
+#### 从两端向中间迭代
 
 **同时使用两个指针**进行迭代，使用双指针技巧的典型场景之一是你想要**从两端向中间迭代**数组。这时你可以使用双指针技巧：**一个指针从始端开始，而另一个指针从末端开始**。值得注意的是，这种技巧经常在**排序数组**中使用。
 
@@ -128,7 +130,7 @@ void post_order_traversal(TreeNode *root) {
 
 [344. 反转字符串](#344-反转字符串)  
 
-#### 2. 快慢指针
+#### 快慢指针
 
 > 经典题目：给定一个数组和一个值，原地删除该值的所有实例并返回新的长度。考虑空间限制，不重新创建空间。  
 > 解决方案：我们使用两个指针：一个仍然用于迭代，而第二个指针总是指向下一次添加删除元素的位置。 
@@ -148,12 +150,12 @@ func removeElement(nums: [Int], val: Int) {
 
 [167. 两数之和 II - 输入有序数组](#167-两数之和-ii-输入有序数组)   
 
-#### 3. 滑窗指针
+#### 滑窗指针
 
 **使用两个指针一前一后遍历**，根据前后指针不同位置，指针闭区间内可以覆盖所有连续组合。  
 [209. 长度最小的子数组](209-长度最小的子数组) 
 
-### 排序
+### 2. 排序
 
 好的排序排序算法时间复杂度应该是nlogn，以下是常见的7中排序：
 
@@ -172,18 +174,99 @@ func removeElement(nums: [Int], val: Int) {
 常规写法：
 
 ```swift
-
+func BubbleSort(array: Array) -> Array {
+	for i in 0..<array.count {
+  		for j in 1..<array.count - i {
+    		if array[j] < array[j-1] {
+      			let tmp = array[j-1]
+				array[j-1] = array[j]
+      			array[j] = tmp
+    		}
+  		}
+	}
+    
+	return array
+}
 ```
 
-#### 快速排序
+
+
+优化:如果已经是有序了就退出循环，判读是否已经有序只用判断是否发生交换。
+
+```swift
+func BubbleSort(array: Array) -> Array {
+	for i in 0..<array.count {
+		var swapped = false
+  		for j in 1..<array.count - i {
+    		if array[j] < array[j-1] {
+      			let tmp = array[j-1]
+				array[j-1] = array[j]
+      			array[j] = tmp
+      			
+      			swapped = true
+    		}
+  		}
+  		
+  		// 已经是有序了，不在遍历后面
+  		if swapped == false {
+            break;
+  		}
+	}
+    
+	return array
+}
+```
 
 
 
-### 斐波那契数列
+[鸡尾酒排序](https://zh.wikipedia.org/wiki/%E9%B8%A1%E5%B0%BE%E9%85%92%E6%8E%92%E5%BA%8F)：
+
+```swift
+func cocktailSort(array: Array) {
+    var left:Int = 0
+    var right:Int = arr.count - 1
+    var index:Int = 0
+    
+    while left < right {
+        for  i in left..<right {
+            if array[i] > array[i + 1] {
+                swap(&array[i], &array[i + 1])
+                index = i
+            }
+        }
+        
+        right = index
+        let temp = left + 1
+        if temp < right {
+            for i in (temp...right).reversed() {
+                if array[i] < array[i-1] {
+                    swap(&array[i], &array[i-1])
+                    index = i
+                }
+            }
+            left = index
+        }
+    }
+}
+```
+
+####  2. 插入排序
+
+#### 3. 选择排序
+
+#### 4. 堆排序
+
+#### 5. 归并排序
+
+#### 6. 快速排序
+
+#### 7. 桶排序
+
+### 3. 斐波那契数列
 
 
 
-### 回溯法
+### 4. 回溯法（递归）
 
 回溯法可以看成是蛮力法的升级版，它从解决问题每一步的所有可能选项里系统地选择出一个可行的解决方案。回溯法非常适合由多个步骤组成的问题，并且每个步骤都有多个选项。当我们再某一步选择了其中一个选项时，就进入下一步，然后又面临新的选择。我们就这样重复选择，知道达到最终的状态。
 
@@ -202,7 +285,7 @@ func removeElement(nums: [Int], val: Int) {
 
 
 
-### 动态规划与贪婪算法
+### 5. 动态规划与贪婪算法
 
 #### 动态规划
 
@@ -225,7 +308,7 @@ func removeElement(nums: [Int], val: Int) {
 
 
 
-### 位运算
+### 6. 位运算
 
 | 与 &    | 0 & 0 = 0               | 1 & 0 = 0               | 0 & 1 = 0                | 1 & 1 = 1 |
 | ------- | ----------------------- | ----------------------- | ------------------------ | --------- |
