@@ -115,6 +115,12 @@ void post_order_traversal(TreeNode *root) {
 * 广度优先遍历，从上到下按层来遍历。
   队列实现
 
+#### B树
+
+#### 红黑树
+
+
+
 ## 算法
 ### 1. 指针（双指针技巧）
 
@@ -252,7 +258,65 @@ func cocktailSort(array: Array) {
 
 ####  2. 插入排序
 
+一般来说，[**插入排序**](https://zh.wikipedia.org/wiki/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F)都采用in-place在数组上实现。具体算法描述如下：
+
+1. 从第一个元素开始，该元素可以认为已经被排序
+2. 取出下一个元素，在已经排序的元素序列中从后向前扫描
+3. 如果该元素（已排序）大于新元素，将该元素移到下一位置
+4. 重复步骤3，直到找到已排序的元素小于或者等于新元素的位置
+5. 将新元素插入到该位置后
+6. 重复步骤2~5
+
+```java
+public void insertionSort(int[] array) {
+		for (int i = 1; i < array.length; i++) {
+			int key = array[i];
+			int j = i - 1;
+			while (j >= 0 && array[j] > key) {
+				array[j + 1] = array[j];
+				j--;
+			}
+			array[j + 1] = key;
+		}
+	}
+```
+
+
+
+**二分查找插入排序**
+
+>  如果*比较操作*的代价比*交换操作*大的话，可以采用[二分查找法](https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E6%B3%95)来减少*比较操作*的数目。该算法可以认为是**插入排序**的一个变种
+
+是直接插入排序的一个变种，区别是：在有序区中查找新元素插入位置时，为了减少元素比较次数提高效率，采用二分查找算法进行插入位置的确定。
+
+
+
 #### 3. 选择排序
+
+[**选择排序**（Selection sort）](https://zh.wikipedia.org/wiki/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F)是一种简单直观的[排序算法](https://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)。它的工作原理如下。首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕。
+
+优缺点：
+
+1. 原地操作几乎是选择排序的唯一优点，当空间复杂度要求较高时，可以考虑选择排序；
+
+2. 实际适用的场合非常罕见。
+
+```swift
+/// - Parameter list: 需要排序的数组
+func selectionSort(_ list: inout [Int]) -> Void {
+    for j in 0..<list.count - 1 {
+        var minIndex = j
+        for i in j..<list.count {
+            if list[minIndex] > list[i] {
+                minIndex = i
+            }
+        }
+        list.swapAt(j, minIndex)
+    }
+}
+```
+
+
 
 #### 4. 堆排序
 
