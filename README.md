@@ -23,6 +23,11 @@
 
 **链表**，在内存中是分散的内存地址。
 
+#### 链表中的环
+1. 使用快慢指针，判断2个指针是否相遇。
+2. 使用hash表存储访问过的节点，需要O(n)的额外空间。
+
+
 ### 2. Hash表
 
 哈希表（Hash Table，也叫散列表），是根据关键码值 (Key-Value) 而直接进行访问的数据结构。也就是说，它通过把关键码值映射到表中一个位置来访问记录，以加快查找的速度。哈希表的实现主要需要解决两个问题，哈希函数和冲突解决。
@@ -118,6 +123,10 @@ void post_order_traversal(TreeNode *root) {
 #### 完全二叉树
 
 若设二叉树的深度为h，除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数，第 h 层所有的结点都连续集中在最左边，这就是完全二叉树。
+
+#### 平衡二叉树
+
+
 
 #### B树
 
@@ -408,6 +417,115 @@ public class HeapSort {
 ```
 
 #### 5. 归并排序
+
+**归并排序**（英语：Merge sort，或mergesort），是创建在归并操作上的一种有效的[排序算法](https://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)，[效率](https://zh.wikipedia.org/wiki/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6)为nlogn。1945年由[约翰·冯·诺伊曼](https://zh.wikipedia.org/wiki/%E7%BA%A6%E7%BF%B0%C2%B7%E5%86%AF%C2%B7%E8%AF%BA%E4%BC%8A%E6%9B%BC)首次提出。该算法是采用[分治法](https://zh.wikipedia.org/wiki/%E5%88%86%E6%B2%BB%E6%B3%95)（Divide and Conquer）的一个非常典型的应用，且各层分治递归可以同时进行。
+
+**时间复杂度**：初始数组是否已经排序不会影响合并排序算法的速度，因为无论元素的初始顺序如何，您都将进行相同数量的拆分和比较。所以这是一个稳定的算法：最坏、最好、平均时间复杂度都是 **O(nlogn)**。
+
+**缺点**：是它需要一个临时的“工作”数组，其大小与被排序的数组相同空间复杂度**O(n)**。 它不是就地排序，不像快速排序。
+
+> 合并排序算法的大多数实现产生稳定的排序。 这意味着具有相同排序键的数组元素在排序后将保持相对于彼此的相同顺序。 这对于数字或字符串等简单值并不重要，但在排序更复杂的对象时可能会出现问题。
+
+
+```swift
+// 递归版本
+func mergeSort(_ array: [Int]) -> [Int] {
+  guard array.count > 1 else { return array }    
+
+  let middleIndex = array.count 
+
+  let leftArray = mergeSort(Array(array[0..<middleIndex]))             
+  let rightArray = mergeSort(Array(array[middleIndex..<array.count]))  
+
+  return merge(leftPile: leftArray, rightPile: rightArray)             
+}
+
+func merge(leftPile: [Int], rightPile: [Int]) -> [Int] {
+  var leftIndex = 0
+  var rightIndex = 0
+
+  var orderedPile = [Int]()
+
+  while leftIndex < leftPile.count && rightIndex < rightPile.count {
+    if leftPile[leftIndex] < rightPile[rightIndex] {
+      orderedPile.append(leftPile[leftIndex])
+      leftIndex += 1
+    } else if leftPile[leftIndex] > rightPile[rightIndex] {
+      orderedPile.append(rightPile[rightIndex])
+      rightIndex += 1
+    } else {
+      orderedPile.append(leftPile[leftIndex])
+      leftIndex += 1
+      orderedPile.append(rightPile[rightIndex])
+      rightIndex += 1
+    }
+  }
+
+  while leftIndex < leftPile.count {
+    orderedPile.append(leftPile[leftIndex])
+    leftIndex += 1
+  }
+
+  while rightIndex < rightPile.count {
+    orderedPile.append(rightPile[rightIndex])
+    rightIndex += 1
+  }
+
+  return orderedPile
+}
+
+// 非递归版本
+func mergeSortBottomUp<T>(_ a: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
+  let n = a.count
+
+  var z = [a, a]      // 1
+  var d = 0
+
+  var width = 1
+  while width < n {   // 2
+
+    var i = 0
+    while i < n {     // 3
+
+      var j = i
+      var l = i
+      var r = i + width
+
+      let lmax = min(l + width, n)
+      let rmax = min(r + width, n)
+
+      while l < lmax && r < rmax {                // 4
+        if isOrderedBefore(z[d][l], z[d][r]) {
+          z[1 - d][j] = z[d][l]
+          l += 1
+        } else {
+          z[1 - d][j] = z[d][r]
+          r += 1
+        }
+        j += 1
+      }
+      while l < lmax {
+        z[1 - d][j] = z[d][l]
+        j += 1
+        l += 1
+      }
+      while r < rmax {
+        z[1 - d][j] = z[d][r]
+        j += 1
+        r += 1
+      }
+
+      i += width*2
+    }
+
+    width *= 2
+    d = 1 - d      // 5
+  }
+  return z[d]
+}
+```
+
+
 
 #### 6. 快速排序
 
