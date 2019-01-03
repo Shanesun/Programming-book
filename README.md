@@ -529,6 +529,154 @@ func mergeSortBottomUp<T>(_ a: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
 
 #### 6. 快速排序
 
+**快速排序**（英语：Quicksort），又称**划分交换排序**（partition-exchange sort），简称**快排**，一种[排序算法](https://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)，最早由[东尼·霍尔](https://zh.wikipedia.org/wiki/%E6%9D%B1%E5%B0%BC%C2%B7%E9%9C%8D%E7%88%BE)提出。在平均状况下，排序**n**个项目要**O(nlogn)**（[大O符号](https://zh.wikipedia.org/wiki/%E5%A4%A7O%E7%AC%A6%E5%8F%B7)）次比较。在最坏状况下则需要**O(n^2)**次比较，但这种状况并不常见。事实上，快速排序**O(nlogn)**通常明显比其他算法更快，因为它的内部循环（inner loop）可以在大部分的架构上很有效率地达成。
+
+| 最坏时间复杂度 | O(n^2)                   |
+| -------------- | ------------------------ |
+| 最优时间复杂度 | **O(nlogn)**             |
+| 平均时间复杂度 | **O(nlogn)**             |
+| 最坏空间复杂度 | 根据实现的方式不同而不同 |
+
+最简单的实现：
+
+```swift
+func quicksort<T: Comparable>(_ a: [T]) -> [T] {
+  guard a.count > 1 else { return a }
+
+  let pivot = a[a.count/2]
+  let less = a.filter { $0 < pivot }
+  let equal = a.filter { $0 == pivot }
+  let greater = a.filter { $0 > pivot }
+
+  return quicksort(less) + equal + quicksort(greater)
+}
+```
+
+效率比较低
+
+##### Lomuto's partitioning scheme
+
+```swift
+func partitionLomuto<T: Comparable>(_ a: inout [T], low: Int, high: Int) -> Int {
+  let pivot = a[high]
+
+  var i = low
+  for j in low..<high {
+    if a[j] <= pivot {
+      (a[i], a[j]) = (a[j], a[i])
+      i += 1
+    }
+  }
+
+  (a[i], a[high]) = (a[high], a[i])
+  return i
+}
+
+func quicksortLomuto<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
+  if low < high {
+    let p = partitionLomuto(&a, low: low, high: high)
+    quicksortLomuto(&a, low: low, high: p - 1)
+    quicksortLomuto(&a, low: p + 1, high: high)
+  }
+}
+```
+
+##### Hoare's partitioning scheme
+
+```swift
+func partitionHoare<T: Comparable>(_ a: inout [T], low: Int, high: Int) -> Int {
+  let pivot = a[low]
+  var i = low - 1
+  var j = high + 1
+
+  while true {
+    repeat { j -= 1 } while a[j] > pivot
+    repeat { i += 1 } while a[i] < pivot
+
+    if i < j {
+      a.swapAt(i, j)
+    } else {
+      return j
+    }
+  }
+}
+
+func quicksortHoare<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
+  if low < high {
+    let p = partitionHoare(&a, low: low, high: high)
+    quicksortHoare(&a, low: low, high: p)
+    quicksortHoare(&a, low: p + 1, high: high)
+  }
+}
+```
+
+##### 优化 pivot 选取问题 
+
+**1. 对于近乎有序的数租如何排序？**
+
+比如 `[ 7, 6, 5, 4, 3, 2, 1 ]`，在使用Lomuto方法时，每次使用的pivot都是最后一个元素。split后的数组极其不平衡。时间复杂度是O(n^2)。
+
+**利用随机pivot的方式**
+
+```swift
+func quicksortRandom<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
+  if low < high {
+    let pivotIndex = random(min: low, max: high)         // 1
+
+    (a[pivotIndex], a[high]) = (a[high], a[pivotIndex])  // 2
+
+    let p = partitionLomuto(&a, low: low, high: high)
+    quicksortRandom(&a, low: low, high: p - 1)
+    quicksortRandom(&a, low: p + 1, high: high)
+  }
+}
+```
+
+**2. 对于有大量重复元素如何优化？**
+
+利用三个指针划分三个区域，大量重复元素会集中在相等的区域。而我们则对小于和大于pivot的区域继续排序。这样能避开对重复元素的反复排序。
+
+```swift
+// 划分三个区域
+[ values < pivot | values equal to pivot | values > pivot ]
+```
+
+```swift
+// 快速排序最优方案
+func partitionDutchFlag<T: Comparable>(_ a: inout [T], low: Int, high: Int, pivotIndex: Int) -> (Int, Int) {
+  let pivot = a[pivotIndex]
+
+  var smaller = low
+  var equal = low
+  var larger = high
+
+  while equal <= larger {
+    if a[equal] < pivot {
+      swap(&a, smaller, equal)
+      smaller += 1
+      equal += 1
+    } else if a[equal] == pivot {
+      equal += 1
+    } else {
+      swap(&a, equal, larger)
+      larger -= 1
+    }
+  }
+  return (smaller, larger)
+}
+
+func quicksortDutchFlag<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
+  if low < high {
+    let pivotIndex = random(min: low, max: high)
+    let (p, q) = partitionDutchFlag(&a, low: low, high: high, pivotIndex: pivotIndex)
+    quicksortDutchFlag(&a, low: low, high: p - 1)
+    quicksortDutchFlag(&a, low: q + 1, high: high)
+  }
+}
+```
+
+
+
 #### 7. 桶排序
 
 ### 3. 斐波那契数列
