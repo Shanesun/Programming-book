@@ -103,6 +103,8 @@
 
 #### 树的遍历
 
+##### 递归实现
+
 * 深度优先遍历
 1. 先序遍历
 ```c
@@ -134,7 +136,105 @@ void post_order_traversal(TreeNode *root) {
     // Do Something with root
 }
 ```
-每一种遍历都包含递归和非递归两种方式。递归的本质是栈，非递归算法其实就是递归换成栈结构实现。
+##### 非递归实现
+
+* 前序遍历
+
+  1. 将根节点Node压入栈
+
+  2. 取出栈顶将其进行打印，同时将取得元素的左右孩子节点分别入栈
+
+  3. 直至栈中的元素全部取光
+
+```c++
+public void preOrderTraversal()
+{
+	Stack<BitNode> stack=new Stack<BitNode>();
+	BitNode node;
+	if(root!=null)
+	{
+		stack.push(root);
+		while(stack.size()>0)
+		{
+			node=stack.pop();
+			System.out.print(node.val+",");
+			if(node.right!=null)
+				stack.push(node.right);
+			if(node.left!=null)
+				stack.push(node.left);
+		}
+	}
+}
+```
+
+* 中序遍历
+
+1. 首选将当前节点root的各个左子节点压入栈
+2. 然后依次从栈中取数据，进行打印，将当前节点置为栈顶的右孩子节点，回到1
+3. 直至栈为空
+
+```c++
+/**
+ * 中序遍历 
+ */
+public void inOrderTraversal()
+{
+	Stack<BitNode> stack=new Stack<BitNode>();
+	BitNode node=root;
+	while(node!=null || stack.size()>0)
+	{
+		while(node!=null)
+		{
+			stack.push(node);
+			node=node.left;
+		}
+		
+		if(stack.size()>0)
+		{
+			node=stack.pop();
+			System.out.print(node.val+",");
+			node=node.right;
+		}
+	}
+}
+```
+
+* 后序遍历
+
+1. 首先将当前节点的各个孩子节点进行入数据栈，同时将该节点的值压入一个值栈
+2. 然后依次从数据栈中取数据，将当前节点置为数据栈顶元素的左孩子节点，回到1
+3. 直至数据栈为空，此时再依次遍历值栈进行打印即可
+
+```c++
+/**
+ * 后续遍历 
+ */
+public void postOrderTraversal()
+{
+	Stack<BitNode> stack=new Stack<BitNode>();
+	Stack<Integer> valStack=new Stack<Integer>();
+	BitNode node=root;
+	while(node!=null || stack.size()>0)
+	{
+		while(node!=null)
+		{
+			stack.push(node);
+			valStack.push(node.val);
+			node=node.right;
+		}
+		
+		node=stack.pop();
+		node=node.left;
+	}
+	
+	while(valStack.size()>0)
+	{
+		System.out.print(valStack.pop()+",");
+	}
+}
+```
+
+每一种遍历都包含递归和非递归两种方式。递归的本质是栈，非递归算法其实就是递归换成栈结构实现，从上到下递归，从小到上的实现。
 
 * 广度优先遍历，从上到下按层来遍历。
   队列实现
@@ -145,11 +245,23 @@ void post_order_traversal(TreeNode *root) {
 
 #### 平衡二叉树
 
-
-
 #### B树
 
 #### 红黑树
+
+#### Huffman树
+
+给定nn权值作为nn个叶子节点，构造一棵二叉树，若这棵二叉树的带权路径长度达到最小，则称这样的二叉树为最优二叉树，也称为Huffman树。
+
+##### Huffman编码
+
+有了上述的Huffman树的结构，现在我们需要利用Huffman树对每一个字符编码，该编码又称为Huffman编码，Huffman编码是一种前缀编码，即一个字符的编码是另一个字符编码的前缀。在这里约定：
+
+* 将权值小的最为左节点，权值大的作为右节点
+
+* 左孩子编码为0，右孩子编码为1
+
+
 
 ### 7. 堆
 
@@ -190,10 +302,68 @@ right(i)  = 2i + 2
 
 #### 常见应用
 
+* 堆排序。
+
 * 海量数据的 **Top K** 问题。
-* 
+
 
 ## 算法
+
+### 0. 查找
+
+#### 二分查找
+
+基础非递归实现：
+
+```java
+int binarySearch(int[] nums, int target){
+  if(nums == null || nums.length == 0)
+    return -1;
+
+  int left = 0, right = nums.length - 1;
+  while(left <= right){
+    // Prevent (left + right) overflow
+    int mid = left + (right - left) / 2;
+    if(nums[mid] == target){ return mid; }
+    else if(nums[mid] < target) { left = mid + 1; }
+    else { right = mid - 1; }
+  }
+
+  // End Condition: left > right
+  return -1;
+}	
+```
+
+递归实现：
+
+```swift
+func search(_ nums: [Int]?, _ target: Int) -> Int {
+        
+        guard let nums = nums else {
+            return -1
+        }
+        
+        if nums.count == 0 || target < nums.first! || target > nums.last! {
+            return -1
+        }
+        
+        return binarySearch(nums, start: 0, end: nums.count-1, target: target)
+    }
+    
+    func binarySearch(_ nums: [Int], start: Int, end: Int, target: Int) -> Int {
+        let mid = (start + end)/2
+        
+        if target > nums[mid] {
+            return binarySearch(nums, start: mid+1, end: end, target: target)
+        } else if target < nums[mid] {
+            return binarySearch(nums, start: 0, end:mid-1, target: target)
+        } else {
+            return mid
+        }
+    }
+```
+
+
 
 ### 1. 指针（双指针技巧）
 
