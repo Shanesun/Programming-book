@@ -4,8 +4,23 @@
 ## 练习题
 
 1. [LeetCode project](/LeetCode/README.md)中包含了 [LeetCode](https://leetcode-cn.com/) 上题目的解题思路和代码。
-
 2. [剑指Offer project](剑指Offer/README.md) 中包含了 《剑指Offer》上题目的实现代码 in Swfit。
+
+## 时间与空间复杂度
+
+### 常见Big O复杂度比较
+
+![image-20190111102125717](resource/image-20190111102125717.png)
+
+### 常见数据结构时间空间复杂度
+
+![image-20190111102348976](resource/image-20190111102348976.png)
+
+### 常见排序时间空间复杂度
+
+![image-20190111102507358](resource/image-20190111102507358.png)
+
+[Big O](http://www.bigocheatsheet.com/)
 
 ## 数据结构
 
