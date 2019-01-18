@@ -3,7 +3,7 @@
 
 ## 练习题
 
-1. [LeetCode project](/LeetCode/README.md)中包含了 [LeetCode](https://leetcode-cn.com/) 上题目的解题思路和代码。
+1. [LeetCode project](LeetCode/README.md)中包含了 [LeetCode](https://leetcode-cn.com/) 上题目的解题思路和代码。
 2. [剑指Offer project](剑指Offer/README.md) 中包含了 《剑指Offer》上题目的实现代码 in Swfit。
 
 ## 时间与空间复杂度
