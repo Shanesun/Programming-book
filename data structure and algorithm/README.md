@@ -118,11 +118,15 @@
 
 #### 树的遍历
 
-##### 递归实现
-
-* 深度优先遍历
 1. 先序遍历
+2. 中序遍历
+3. 后序遍历
+4. 分层遍历
+
+##### 代码实现
+
 ```c
+// 1. 先序遍历 递归
 void pre_order_traversal(TreeNode *root) {
     // Do Something with root
     if (root->lchild != NULL)
@@ -131,8 +135,8 @@ void pre_order_traversal(TreeNode *root) {
         pre_order_traversal(root->rchild);
 }
 ```
-2. 中序遍历
 ```c
+// 2. 中序遍历 递归
 void in_order_traversal(TreeNode *root) {
     if (root->lchild != NULL)
         in_order_traversal(root->lchild);
@@ -141,8 +145,8 @@ void in_order_traversal(TreeNode *root) {
         in_order_traversal(root->rchild);
 }
 ```
-3. 后序遍历
 ```c
+// 3. 后序遍历 递归
 void post_order_traversal(TreeNode *root) {
     if (root->lchild != NULL)
         post_order_traversal(root->lchild);
@@ -151,17 +155,11 @@ void post_order_traversal(TreeNode *root) {
     // Do Something with root
 }
 ```
-##### 非递归实现
-
-* 前序遍历
-
-  1. 将根节点Node压入栈
-
-  2. 取出栈顶将其进行打印，同时将取得元素的左右孩子节点分别入栈
-
-  3. 直至栈中的元素全部取光
-
 ```c++
+// 前序遍历 非递归实现
+// 1. 将根节点Node压入栈
+// 2. 取出栈顶将其进行打印，同时将取得元素的左右孩子节点分别入栈
+// 3. 直至栈中的元素全部取光
 public void preOrderTraversal()
 {
 	Stack<BitNode> stack=new Stack<BitNode>();
@@ -182,16 +180,11 @@ public void preOrderTraversal()
 }
 ```
 
-* 中序遍历
-
-1. 首选将当前节点root的各个左子节点压入栈
-2. 然后依次从栈中取数据，进行打印，将当前节点置为栈顶的右孩子节点，回到1
-3. 直至栈为空
-
 ```c++
-/**
- * 中序遍历 
- */
+// 中序遍历 
+// 1. 首选将当前节点root的各个左子节点压入栈
+// 2. 然后依次从栈中取数据，进行打印，将当前节点置为栈顶的右孩子节点，回到1
+// 3. 直至栈为空
 public void inOrderTraversal()
 {
 	Stack<BitNode> stack=new Stack<BitNode>();
@@ -214,16 +207,11 @@ public void inOrderTraversal()
 }
 ```
 
-* 后序遍历
-
-1. 首先将当前节点的各个孩子节点进行入数据栈，同时将该节点的值压入一个值栈
-2. 然后依次从数据栈中取数据，将当前节点置为数据栈顶元素的左孩子节点，回到1
-3. 直至数据栈为空，此时再依次遍历值栈进行打印即可
-
 ```c++
-/**
- * 后续遍历 
- */
+// 后序遍历 非递归实现
+// 1. 首先将当前节点的各个孩子节点进行入数据栈，同时将该节点的值压入一个值栈
+// 2. 然后依次从数据栈中取数据，将当前节点置为数据栈顶元素的左孩子节点，回到1
+// 3. 直至数据栈为空，此时再依次遍历值栈进行打印即可
 public void postOrderTraversal()
 {
 	Stack<BitNode> stack=new Stack<BitNode>();
@@ -941,6 +929,10 @@ func quicksortDutchFlag<T: Comparable>(_ a: inout [T], low: Int, high: Int) {
 #### 7. 桶排序
 
 ### 3. 斐波那契数列
+
+$$
+
+$$
 
 
 
