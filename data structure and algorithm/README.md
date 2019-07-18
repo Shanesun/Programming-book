@@ -22,6 +22,12 @@
 
 [Big O](http://www.bigocheatsheet.com/)
 
+### 递归或查找算法的时间复杂度
+
+[主定理(Master Theorem)](https://zh.wikipedia.org/wiki/主定理)：使用Big O表示许多由分治法得到的递推公式，根据公示得到Big O表示。
+
+![image-20190718100128281](/Users/shane/Documents/Github/Programming-book/data structure and algorithm/resource/image-20190718100128281.png)
+
 ## 数据结构
 
 ### 1. 数组和链表
@@ -260,11 +266,13 @@ public void postOrderTraversal()
 
 4. 没有值相等重复的节点;
 
-
-
 #### B树
 
 B树和平衡二叉树稍有不同的是B树属于**多叉树**又名平衡多路查找树（查找路径不只两个），**数据库索引**技术里大量使用者B树和B+树的数据结构，让我们来看看他有什么特点。
+
+#### B+树
+
+[B+树]([https://zh.wikipedia.org/wiki/B%2B%E6%A0%91](https://zh.wikipedia.org/wiki/B%2B树))是一种[树数据结构](https://zh.wikipedia.org/wiki/树_(数据结构))，通常用于[数据库](https://zh.wikipedia.org/wiki/数据库)和[操作系统](https://zh.wikipedia.org/wiki/操作系统)的[文件系统](https://zh.wikipedia.org/wiki/文件系统)中。B+ 树的特点是能够保持数据稳定有序，其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与[二叉树](https://zh.wikipedia.org/wiki/二叉树)恰好相反。
 
 #### 红黑树
 
