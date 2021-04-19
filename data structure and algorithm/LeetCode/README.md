@@ -3,7 +3,8 @@
 
 [14. 最长公共前缀](#14-最长公共前缀)  
 [27. 移除元素](#27-移除元素)  
-[119. 杨辉三角 II](119-杨辉三角-II)  
+[119. 杨辉三角 II](#119-杨辉三角-II)  
+[160. 相交链表](#160-相交链表)
 [167. 两数之和 II - 输入有序数组](#167-两数之和-ii-输入有序数组)  
 [189. 旋转数组](189-旋转数组) 
 [200. 岛屿的个数](200-岛屿的个数)
@@ -232,6 +233,90 @@ func getRow(_ rowIndex: Int) -> [Int] {
         _ = self.arrayPairSum([2,3])
         _ = self.arrayPairSum([-21,0,2,3])
     }
+```
+### 160. 相交链表
+时间复杂度：O(n )  
+空间复杂度：O(1)  
+
+方法一：
+O(n^2) 时间复杂度
+
+1. 嵌套 2 个 for 循环，找到第一个相同元素
+
+方法二：
+O(n) 时间复杂度 O(n)空间复杂度
+
+1. 遍历 A 节点时，将 A 节点所有元素存到 map 中，map是以元素地址作为 key ，val 做为 value 。
+2. 便利 B 节点，遍历时在 map 中查找当前对象在 map 中是否存在相同 key 元素如果第一个存在的元素就为最近相交节点。
+
+方法三(最优)：
+
+O(n) 时间复杂度， O(1) 空间复杂度
+
+1. 便利 A 后获得 A 链表长度，便利 B 后获得 B 链表长度。
+2. 2 个长度做差值，进行裁剪得到 2 个相同长度链表。
+3. 同时遍历 2 个链表，遍历是比较 2 个元素是否相同。
+
+
+
+```swift
+class Solution {
+    func getIntersectionNode(_ headA: ListNode?, _ headB: ListNode?) -> ListNode? {
+     
+
+        guard let headA = headA, let headB = headB else {
+            return nil
+        }
+
+      	// 获取 A 和 B 的长度
+        var lengthOfA = getLisNodeLength(headA)
+        var lengthOfB = getLisNodeLength(headB)
+
+      	// 裁剪对齐 A 和 B
+        var newHeadA: ListNode? = headA
+        var newHeadB: ListNode? = headB
+        var newLength = lengthOfA
+
+        if lengthOfA > lengthOfB {
+            newLength = lengthOfB
+            var delta = lengthOfA - lengthOfB
+            while delta > 0 {
+                delta -= 1
+                newHeadA = newHeadA?.next
+            }
+        } else if lengthOfA < lengthOfB  {
+            newLength = lengthOfA
+            var delta = lengthOfB - lengthOfA
+            while delta > 0 {
+                delta -= 1
+                newHeadB = newHeadB?.next
+            }
+        }
+        
+      	// 同时比较 A 和 B
+        while newLength > 0 {
+            newLength -= 1
+            if newHeadA === newHeadB {
+                return newHeadA
+            }
+            newHeadA = newHeadA?.next
+            newHeadB = newHeadB?.next
+        }
+
+        return nil
+    }
+
+    func getLisNodeLength(_ listNode: ListNode) -> Int {
+        var length = 0
+        var currentNode: ListNode? = listNode
+        while currentNode != nil {
+            length += 1
+            currentNode = currentNode?.next
+        }
+
+        return length
+    }
+}
 ```
 
 ### 167. 两数之和 II - 输入有序数组
