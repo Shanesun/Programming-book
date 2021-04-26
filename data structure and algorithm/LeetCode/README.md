@@ -1,145 +1,22 @@
 # LeetCode
-该repo用于记录LeetCode做题时的解题思路和Swift代码，该解题方式可能不是最优解，非常欢迎针对最优解的讨论和交流。
+用于记录LeetCode做题时的**解题思路**和 Swift 代码，该解题方式可能不是最优解。
 
-[14. 最长公共前缀](#14-最长公共前缀)  
+[14. 最长公共前缀](./source/14.md)  
 [27. 移除元素](#27-移除元素)  
 [53. 最大子序和](./source/53.md)
-[119. 杨辉三角 II](#119-杨辉三角-II)  
+[119. 杨辉三角 II](./source/119.md)  
 [146. LRU缓存机制](./source/146.md)
 [160. 相交链表](#160-相交链表)
 [167. 两数之和 II - 输入有序数组](#167-两数之和-ii-输入有序数组)  
 [189. 旋转数组](189-旋转数组) 
 [200. 岛屿的个数](200-岛屿的个数)
 [206. 反转链表](./source/206.md)
-[209. 长度最小的子数组](209-长度最小的子数组)  
+[209. 长度最小的子数组](./source/209.md)  
 [344. 反转字符串](#344-反转字符串)  
 [485. 最大连续1的个数](485-最大连续1的个数)  
 [561. 数组拆分 I](#561-数组拆分-i)  
 
 [打开转盘锁](打开转盘锁)
-
-### 14. 最长公共前缀
-时间复杂度：O(n)  
-控件复杂度：O(1)
-
-遍历一次`strs`数组，每两个比较一次获取 `commonPrefix` ，这样只需遍历一次O(n)时间复杂度。
-> leetCode中使用`commonPrefix(with:)`无法得到正确值，所以手写了一次匹配公共前缀逻辑，性能上不确定是否是最优。
-
-```swift
-//MARK:14. 最长公共前缀
-    func longestCommonPrefix(_ strs: [String]) -> String {
-        if strs.count == 0{
-            return ""
-        }
-        guard var commonPrefix = strs.first else {
-            return ""
-        }
-        
-        for (index, value) in strs.enumerated() {
-            if index == 0 { continue }
-            if value == "" { return "" }
-            if commonPrefix == value { continue }
-            
-//            let tmpPrefix = value.commonPrefix(with: commonPrefix!) // leetCode 编译器无法正确返回commonPrefix 方法
-            let commonPrefixArray = Array(commonPrefix)
-            let valueArray = Array(value)
-            
-            var tmpPrefix = ""
-            for (prefixIndex, char) in commonPrefixArray.enumerated() {
-                if prefixIndex < value.count {
-                    if char == valueArray[prefixIndex] {
-                        tmpPrefix.append(char)
-                    } else {
-                        break
-                    }
-                }
-            }
-            
-            if tmpPrefix.count > 0 {
-                commonPrefix = tmpPrefix
-            } else {
-                return ""
-            }
-        }
-        
-        return commonPrefix
-    }
-    
-    func testlongestCommonPrefix() {
-         _ = self.longestCommonPrefix(["abca","abc"])
-        _ = self.longestCommonPrefix(["flower","flow","flight"])
-        _ = self.longestCommonPrefix(["dog","racecar","car"])
-        _ = self.longestCommonPrefix(["dog","racecar",""])
-        _ = self.longestCommonPrefix([])
-    }
-```
-### 119. 杨辉三角 II
-时间复杂度：O(n^2)  
-控件复杂度：O(n)  
-题目要求只能使用O(n)空间复杂度，所以是在长度为n的数组上迭代杨辉三角，使用指针保存上一次左邻元素的值，与当前位置元素相加后，再将当前位置未加前的值保存到指针中，循环遍历。
-
-```swift
-//MARK: 119. 杨辉三角 II
-func getRow(_ rowIndex: Int) -> [Int] {
-    var arr = [Int]()
-    var preValue = 1
-    
-    for k in 0...rowIndex {
-        for i in 0...k {
-            if i == k {
-                arr.append(1)
-            } else if i == 0 {
-                preValue = arr[i]
-                arr[i] = 1
-            } else {
-                let tmpPreValue = arr[i];
-                
-                arr[i] = tmpPreValue + preValue
-                
-                preValue = tmpPreValue
-            }
-        }
-    }
-    
-    return arr
-}
-```
-### 209. 长度最小的子数组
-时间复杂度：O(n)  
-控件复杂度：O(1)  
-要求是连续子数组，所以我们必须定义 i，j两个指针，i 向前遍历，j 向后遍历，相当与一个滑块，这样所有的子数组都会在 [i...j] 中出现，如果 nums[i..j] 的和小于目标值 s，那么j向后移一位，再次比较，直到大于目标值 s 之后，i 向前移动一位，缩小数组的长度。遍历到i到数组的最末端，就算结束了，如果不存在符合条件的就返回 0。  
-
-```swift
- func minSubArrayLen(_ s: Int, _ nums: [Int]) -> Int {
-        var pre = 0
-        var after = -1
-        var total = 0
-        
-        var lestCount = nums.count+1;
-        
-        while pre < nums.count {
-            if after+1<nums.count && total<s {
-                after += 1
-                total += nums[after]
-                
-            } else {
-                total -= nums[pre]
-                pre += 1;
-            }
-            
-            if total >= s {
-                if  after - pre + 1 < lestCount {
-                    lestCount = after - pre + 1
-                }
-            }
-        }
-        if lestCount == nums.count + 1 {
-            return 0
-        }
-        
-        return lestCount
-    }
-```
 
 ### 344. 反转字符串
 时间复杂度：O(n)  
